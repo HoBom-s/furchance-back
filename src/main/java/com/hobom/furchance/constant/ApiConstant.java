@@ -1,22 +1,21 @@
 package com.hobom.furchance.constant;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import com.hobom.furchance.util.Util;
 
 public class ApiConstant {
 
-    public static final String SEARCH_BEGIN_DATE = "20240620";
+    public static final String OPENAPI_BASE_URL = "http://apis.data.go.kr/1543061/abandonmentPublicSrvc";
 
-    public static final String SEARCH_END_DATE = getTodayDate();
+    public static final String PARAM_ABANDONED_ANIMAL = "/abandonmentPublic";
+
+    public static final String SEARCH_BEGIN_DATE = "20240615";
+
+    public static final String SEARCH_END_DATE = Util.getTodayDate();
 
     public static final String SEOUL_CODE = "6110000";
 
     public static final String TYPE_JSON = "json";
 
-    public static String getTodayDate() {
-        LocalDate now = LocalDate.now(ZoneId.of("Asia/Seoul"));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        return formatter.format(now);
-    }
+    public static final String COUNT = "100";
+
 }
