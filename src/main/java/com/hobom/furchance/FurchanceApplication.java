@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class FurchanceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FurchanceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FurchanceApplication.class, args);
+    }
 
 }
