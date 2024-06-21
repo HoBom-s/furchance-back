@@ -1,5 +1,6 @@
 package com.hobom.furchance.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,9 +22,9 @@ public class Util {
 
     }
 
-    public static class Parser {
+    public static class CustomParser {
 
-        public static Map parseStringToMap(String json) throws IOException {
+        public static Map parseStringToMap(String json) throws JsonProcessingException {
             ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             return objectMapper.readValue(json, Map.class);
 
