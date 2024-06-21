@@ -2,16 +2,15 @@ package com.hobom.furchance.openapi;
 
 import com.hobom.furchance.constant.ApiConstant;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Map;
 
 @FeignClient(name = "openApi", url = ApiConstant.OPENAPI_BASE_URL)
 public interface OpenApiClient {
 
     @GetMapping(ApiConstant.PARAM_ABANDONED_ANIMAL)
-    public Map getAbandonedAnimals(
+    String getAbandonedAnimals(
             @RequestParam("serviceKey") String serviceKey,
             @RequestParam("bgnde") String bgnde,
             @RequestParam("endde") String endde,
