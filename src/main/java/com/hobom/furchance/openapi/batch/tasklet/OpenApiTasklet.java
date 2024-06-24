@@ -1,5 +1,6 @@
-package com.hobom.furchance.openapi.batch;
+package com.hobom.furchance.openapi.batch.tasklet;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.hobom.furchance.constant.OpenApiConstant;
 import com.hobom.furchance.openapi.OpenApiClient;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +12,11 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
 
-import static com.hobom.furchance.util.Util.CustomParser.parseStringToMap;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.hobom.furchance.util.Util.CustomParser.parseStringToJson;
 
 @Component
 @StepScope
@@ -21,6 +24,8 @@ import static com.hobom.furchance.util.Util.CustomParser.parseStringToMap;
 public class OpenApiTasklet implements Tasklet {
 
     private final OpenApiClient openApiClient;
+
+    public static List<JsonNode> tempDB = new ArrayList<>();
 
     @Value("${openapi.authKey.d}")
     public String OPENAPI_AUTHKEY_D;
@@ -36,9 +41,12 @@ public class OpenApiTasklet implements Tasklet {
                 , OpenApiConstant.TYPE_JSON
         );
 
-        Map<String, String> response = parseStringToMap(abandonedAnimalsInJsonString);
+        JsonNode abandonedAnimals = parseStringToJson(abandonedAnimalsInJsonString).path("response").path("body").path("items").path("item");
+        System.out.println("JSON response = " + abandonedAnimals);
 
-        System.out.println("Map response = " + response);
+        for (JsonNode abandonedAnimal : abandonedAnimals) {
+            System.out.println("abandonedAnimal = " + abandonedAnimal);
+        }
 
         return RepeatStatus.FINISHED;
     }

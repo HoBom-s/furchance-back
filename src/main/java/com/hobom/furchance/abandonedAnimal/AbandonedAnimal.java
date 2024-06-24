@@ -1,4 +1,4 @@
-package com.hobom.furchance.animal;
+package com.hobom.furchance.abandonedAnimal;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import java.util.Date;
 @Table(name = "animal")
 @Getter
 @Setter
-public class Animal {
+public class AbandonedAnimal {
     @Id
     @Column(name = "animal_id")
     private Long id;

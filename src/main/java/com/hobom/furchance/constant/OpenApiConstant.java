@@ -9,7 +9,7 @@ public class OpenApiConstant {
     // 유기동물 오픈 api
     public static final String PARAM_ABANDONED_ANIMAL = "/abandonmentPublic";
 
-    public static final String SEARCH_BEGIN_DATE = "20240615";
+    public static final String SEARCH_BEGIN_DATE = "20240622";
 
     public static final String SEARCH_END_DATE = Util.getTodayDate();
 
