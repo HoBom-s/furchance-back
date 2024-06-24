@@ -9,7 +9,7 @@ public class OpenApiConstant {
     // 유기동물 오픈 api
     public static final String PARAM_ABANDONED_ANIMAL = "/abandonmentPublic";
 
-    public static final String SEARCH_BEGIN_DATE = "20240622";
+    public static final String SEARCH_BEGIN_DATE = "20240620";
 
     public static final String SEARCH_END_DATE = Util.getTodayDate();
 
@@ -19,7 +19,7 @@ public class OpenApiConstant {
 
     public static final String COUNT = "100";
 
-    // FeignClientRetryer 상수
+    // FeignClientRetryer
     public static final int PERIOD = 100;
 
     public static final Long DURATION = 3L;

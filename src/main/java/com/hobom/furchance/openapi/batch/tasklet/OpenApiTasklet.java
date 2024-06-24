@@ -25,7 +25,7 @@ public class OpenApiTasklet implements Tasklet {
 
     private final OpenApiClient openApiClient;
 
-    public static List<JsonNode> tempDB = new ArrayList<>();
+    public static List<JsonNode> tempStorage = new ArrayList<>();
 
     @Value("${openapi.authKey.d}")
     public String OPENAPI_AUTHKEY_D;
@@ -42,11 +42,8 @@ public class OpenApiTasklet implements Tasklet {
         );
 
         JsonNode abandonedAnimals = parseStringToJson(abandonedAnimalsInJsonString).path("response").path("body").path("items").path("item");
-        System.out.println("JSON response = " + abandonedAnimals);
 
-        for (JsonNode abandonedAnimal : abandonedAnimals) {
-            System.out.println("abandonedAnimal = " + abandonedAnimal);
-        }
+        abandonedAnimals.forEach(tempStorage::add);
 
         return RepeatStatus.FINISHED;
     }

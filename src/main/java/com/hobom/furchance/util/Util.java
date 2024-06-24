@@ -8,17 +8,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
 
 public class Util {
 
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     public static String getTodayDate() {
-
         LocalDate now = LocalDate.now(ZoneId.of("Asia/Seoul"));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        return formatter.format(now);
-
+        return FORMATTER.format(now);
     }
 
     public static class CustomParser {
@@ -26,7 +23,6 @@ public class Util {
         public static JsonNode parseStringToJson(String stringJson) throws JsonProcessingException {
             ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             return objectMapper.readTree(stringJson);
-
         }
 
     }

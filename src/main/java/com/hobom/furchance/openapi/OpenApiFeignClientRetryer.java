@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import java.util.concurrent.TimeUnit;
 
 public class OpenApiFeignClientRetryer {
+
     @Bean
     Retryer.Default openFeinClientRetryer() {
         return new Retryer.Default(
@@ -15,4 +16,5 @@ public class OpenApiFeignClientRetryer {
                 OpenApiConstant.MAX_ATTEMPT
         );
     }
+
 }

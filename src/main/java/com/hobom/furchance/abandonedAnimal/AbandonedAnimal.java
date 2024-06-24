@@ -4,34 +4,37 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Entity
-@Table(name = "animal")
+@Table(name = "ABANDONED_ANIMAL")
 @Getter
 @Setter
 public class AbandonedAnimal {
+
     @Id
-    @Column(name = "animal_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "abandoned_animal_id")
     private Long id;
 
+    @Column(name = "desertion_no")
+    private String desertionNo;
+
     @Column(name = "profile_img")
-    private String profileImg;
+    private String filename;
 
-    @Column(name = "found_date")
-    private Date foundDate;
+    @Column(name = "happen_date")
+    private String happenDt;
 
-    @Column(name = "found_place")
-    private String foundPlace;
+    @Column(name = "happen_place")
+    private String happenPlace;
 
-    @Column(name = "breed")
-    private String breed;
+    @Column(name = "kind")
+    private String kindCd;
 
     @Column(name = "color")
-    private String color;
+    private String colorCd;
 
     @Column(name = "age")
-    private int age;
+    private String age;
 
     @Column(name = "weight")
     private String weight;
@@ -39,44 +42,43 @@ public class AbandonedAnimal {
     @Column(name = "notice_no")
     private String noticeNo;
 
-    @Column(name = "created_at")
-    private Date createdAt;
+    @Column(name = "notice_start_date")
+    private String noticeSdt;
 
-    @Column(name = "updated_at")
-    private Date updatedAt;
+    @Column(name = "notice_edit_date")
+    private String noticeEdt;
 
-    /*
-    @Column(name = "popfile")
+    @Column(name = "big_profile_img")
     private String popfile;
-    */
 
     @Column(name = "status")
-    private String status;
+    private String processState;
 
     @Column(name = "sex")
-    private String sex;
+    private String sexCd;
 
-    @Column(name = "is_neuter")
-    private String isNeuter;
+    @Column(name = "neuter_yn")
+    private String neuterYn;
 
-    @Column(name = "note")
-    private String note;
+    @Column(name = "special_mark")
+    private String specialMark;
 
-    @Column(name = "shelter")
-    private String shelter;
+    @Column(name = "shelter_name")
+    private String careNm;
 
     @Column(name = "shelter_tel")
-    private String shelterTel;
+    private String careTel;
 
-    @Column(name = "shelter_addr")
-    private String shelterAddr;
+    @Column(name = "shelter_address")
+    private String careAddr;
 
     @Column(name = "org_name")
-    private String orgName;
+    private String orgNm;
 
-    @Column(name = "office_manager")
-    private String officeManager;
+    @Column(name = "charge_name")
+    private String chargeNm;
 
     @Column(name = "office_tel")
-    private String officeTel;
+    private String officetel;
+
 }

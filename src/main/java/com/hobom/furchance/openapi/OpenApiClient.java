@@ -21,4 +21,5 @@ public interface OpenApiClient {
             @RequestParam("numOfRows") String numOfRows,
             @RequestParam("_type") String _type
     );
+
 }
