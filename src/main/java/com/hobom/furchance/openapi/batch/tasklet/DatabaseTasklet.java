@@ -25,6 +25,8 @@ public class DatabaseTasklet implements Tasklet {
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
+        abandonedAnimalRepository.deleteAll();
+
         for (JsonNode openApiAbandonedAnimal : OpenApiTasklet.tempStorage) {
 
             AbandonedAnimal abandonedAnimal = objectMapper.treeToValue(openApiAbandonedAnimal, AbandonedAnimal.class);

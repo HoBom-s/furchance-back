@@ -2,6 +2,7 @@ package com.hobom.furchance.openapi.batch.tasklet;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.hobom.furchance.constant.OpenApiConstant;
+import com.hobom.furchance.dto.OpenApiRequestParamDto;
 import com.hobom.furchance.openapi.OpenApiClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.StepContribution;
@@ -28,17 +29,16 @@ public class OpenApiTasklet implements Tasklet {
     public static List<JsonNode> tempStorage = new ArrayList<>();
 
     @Value("${openapi.authKey.d}")
-    public String OPENAPI_AUTHKEY_D;
+    private String serviceKey;
 
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-        String abandonedAnimalsInJsonString = openApiClient.getAbandonedAnimals(
-                OPENAPI_AUTHKEY_D
-                , OpenApiConstant.SEARCH_BEGIN_DATE
-                , OpenApiConstant.SEARCH_END_DATE
-                , OpenApiConstant.SEOUL_CODE
-                , OpenApiConstant.COUNT
-                , OpenApiConstant.TYPE_JSON
+
+        OpenApiRequestParamDto openApiRequestParamDto = new OpenApiRequestParamDto();
+        openApiRequestParamDto.setServiceKey(serviceKey);
+
+        String abandonedAnimalsInJsonString = openApiClient.getOpenApiAbandonedAnimals(
+                openApiRequestParamDto
         );
 
         JsonNode abandonedAnimals = parseStringToJson(abandonedAnimalsInJsonString).path("response").path("body").path("items").path("item");
