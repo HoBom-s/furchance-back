@@ -11,6 +11,7 @@ import lombok.Setter;
 public class AbandonedAnimalBackUp {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "abandoned_animal_id")
     private Long id;
 
