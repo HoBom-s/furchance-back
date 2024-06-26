@@ -1,7 +1,6 @@
 package com.hobom.furchance.openapi.batch.tasklet;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.hobom.furchance.constant.OpenApiConstant;
 import com.hobom.furchance.dto.OpenApiRequestParamDto;
 import com.hobom.furchance.openapi.OpenApiClient;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,8 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import static com.hobom.furchance.util.Util.CustomParser.parseStringToJson;
 @Component
 @StepScope
 @RequiredArgsConstructor
-public class OpenApiTasklet implements Tasklet {
+public class FetchOpenApiTasklet implements Tasklet {
 
     private final OpenApiClient openApiClient;
 
@@ -37,15 +37,12 @@ public class OpenApiTasklet implements Tasklet {
         OpenApiRequestParamDto openApiRequestParamDto = new OpenApiRequestParamDto();
         openApiRequestParamDto.setServiceKey(serviceKey);
 
-        String abandonedAnimalsInJsonString = openApiClient.getOpenApiAbandonedAnimals(
-                openApiRequestParamDto
-        );
+        String responseInString = openApiClient.getOpenApiAbandonedAnimals(openApiRequestParamDto);
 
-        JsonNode abandonedAnimals = parseStringToJson(abandonedAnimalsInJsonString).path("response").path("body").path("items").path("item");
+        JsonNode abandonedAnimals = parseStringToJson(responseInString).path("response").path("body").path("items").path("item");
 
         abandonedAnimals.forEach(tempStorage::add);
 
         return RepeatStatus.FINISHED;
     }
-
 }

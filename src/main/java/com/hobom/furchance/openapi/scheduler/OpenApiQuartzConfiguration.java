@@ -35,9 +35,7 @@ public class OpenApiQuartzConfiguration {
         return TriggerBuilder.newTrigger()
                 .forJob(jobDetail)
                 .withIdentity("openApiJobTrigger")
-//                .withSchedule(CronScheduleBuilder.cronSchedule("0 0 0 * * ?"))
-                .withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(20).repeatForever())
-//                .withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInMinutes(1).repeatForever())
+                .withSchedule(CronScheduleBuilder.cronSchedule("0 0 0 * * ?"))
                 .build();
     }
 }

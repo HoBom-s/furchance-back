@@ -1,7 +1,7 @@
 package com.hobom.furchance.openapi.batch;
 
-import com.hobom.furchance.openapi.batch.tasklet.DatabaseTasklet;
-import com.hobom.furchance.openapi.batch.tasklet.OpenApiTasklet;
+import com.hobom.furchance.openapi.batch.tasklet.*;
+import jakarta.persistence.SecondaryTable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -25,26 +25,37 @@ public class OpenApiBatchConfiguration {
     private final PlatformTransactionManager transactionManager;
 
     @Bean
-    public Job openApiJob(@Qualifier("getOpenApiData") Step getOpenApiData, @Qualifier("saveDataToDB") Step saveDataToDB) {
+    public Job openApiJob(
+            @Qualifier("beforeFetch") Step beforeFetch,
+            @Qualifier("fetchOpenApi") Step fetchOpenApi,
+            @Qualifier("afterFetch") Step afterFetch
+    ) {
         return new JobBuilder("openApiJob", jobRepository)
-                .start(getOpenApiData)
-                .next(saveDataToDB)
+                .start(beforeFetch)
+                .next(fetchOpenApi)
+                .next(afterFetch)
                 .build();
     }
 
     @Bean
-    public Step getOpenApiData(OpenApiTasklet openApiTasklet) {
-        return new StepBuilder("getOpenApiData", jobRepository)
-                .tasklet(openApiTasklet, transactionManager)
+    public Step beforeFetch(BeforeFetchTasklet beforeFetchTasklet){
+        return new StepBuilder("beforeFetch", jobRepository)
+                .tasklet(beforeFetchTasklet, transactionManager)
                 .build();
     }
 
     @Bean
-    public Step saveDataToDB(DatabaseTasklet databaseTasklet) {
-        return new StepBuilder("saveDataToDB", jobRepository)
-                .tasklet(databaseTasklet, transactionManager)
+    public Step fetchOpenApi(FetchOpenApiTasklet fetchOpenApiTasklet) {
+        return new StepBuilder("fetchOpenApi", jobRepository)
+                .tasklet(fetchOpenApiTasklet, transactionManager)
                 .build();
     }
 
+    @Bean
+    public Step afterFetch(AfterFetchTasklet afterFetchTasklet) {
+        return new StepBuilder("afterFetch", jobRepository)
+                .tasklet(afterFetchTasklet, transactionManager)
+                .build();
+    }
 
 }

@@ -12,7 +12,7 @@ public class AbandonedAnimalBackUp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "abandoned_animal_id")
+    @Column(name = "abandoned_animal_bak_id")
     private Long id;
 
     @Column(name = "desertion_no")
