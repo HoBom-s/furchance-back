@@ -30,10 +30,8 @@ public class BeforeFetchTasklet implements Tasklet {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
-        // 백업 테이블 삭제
         abandonedAnimalBackUpRepository.deleteAllInBatch();
 
-        // 기존 데이터 백업
         List<AbandonedAnimal> ExistingAbandonedAnimals = abandonedAnimalRepository.findAll();
 
         ArrayList<AbandonedAnimalBackUp> abandonedAnimalBackUps = new ArrayList<>();
@@ -67,9 +65,8 @@ public class BeforeFetchTasklet implements Tasklet {
             abandonedAnimalBackUps.add(backUpAnimal);
         }
 
-        abandonedAnimalBackUpRepository.saveAllAndFlush(abandonedAnimalBackUps);
+        abandonedAnimalBackUpRepository.saveAll(abandonedAnimalBackUps);
 
-        // 기존 테이블 삭제
         abandonedAnimalRepository.deleteAllInBatch();
 
         return RepeatStatus.FINISHED;
