@@ -1,4 +1,4 @@
-package com.hobom.furchance.dto;
+package com.hobom.furchance.openapi.dto;
 
 import com.hobom.furchance.constant.OpenApiConstant;
 import lombok.AllArgsConstructor;

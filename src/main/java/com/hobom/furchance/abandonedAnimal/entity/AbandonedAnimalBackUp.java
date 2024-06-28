@@ -1,4 +1,4 @@
-package com.hobom.furchance.abandonedAnimal;
+package com.hobom.furchance.abandonedAnimal.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

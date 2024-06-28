@@ -1,7 +1,7 @@
 package com.hobom.furchance.openapi.batch.tasklet;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.hobom.furchance.dto.OpenApiRequestParamDto;
+import com.hobom.furchance.openapi.dto.OpenApiRequestParamDto;
 import com.hobom.furchance.openapi.OpenApiClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.StepContribution;
@@ -11,8 +11,6 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;

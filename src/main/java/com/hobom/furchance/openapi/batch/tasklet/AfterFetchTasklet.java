@@ -2,8 +2,8 @@ package com.hobom.furchance.openapi.batch.tasklet;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hobom.furchance.abandonedAnimal.AbandonedAnimal;
-import com.hobom.furchance.abandonedAnimal.AbandonedAnimalRepository;
+import com.hobom.furchance.abandonedAnimal.entity.AbandonedAnimal;
+import com.hobom.furchance.abandonedAnimal.repository.AbandonedAnimalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.configuration.annotation.StepScope;
