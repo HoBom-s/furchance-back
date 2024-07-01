@@ -4,9 +4,9 @@ import com.hobom.furchance.abandonedAnimal.dto.AbandonedAnimalResponseDto;
 import com.hobom.furchance.abandonedAnimal.dto.PaginationRequestParamDto;
 import com.hobom.furchance.abandonedAnimal.entity.AbandonedAnimal;
 import com.hobom.furchance.abandonedAnimal.repository.AbandonedAnimalRepository;
+import com.hobom.furchance.abandonedAnimal.repository.spec.AbandonedAnimalSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.query.SortDirection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,10 +35,11 @@ public class AbandonedAnimalServiceImpl implements AbandonedAnimalService {
 
         int pageNum = paginationRequestParamDto.getPageNum() - 1;
         int perPage = paginationRequestParamDto.getPerPage();
+        String sortField = paginationRequestParamDto.getSortField();
         Sort.Direction sortDirection = Sort.Direction.fromString(String.valueOf(paginationRequestParamDto.getSort()));
 
-        PageRequest pageRequest = PageRequest.of(pageNum, perPage, sortDirection, "noticeEdt");
+        Pageable pageable = PageRequest.of(pageNum, perPage, sortDirection, sortField);
 
-        return abandonedAnimalRepository.findAll(pageRequest).map(AbandonedAnimalResponseDto::from);
+        return abandonedAnimalRepository.findAll(AbandonedAnimalSpecification.withFilters(paginationRequestParamDto),pageable).map(AbandonedAnimalResponseDto::from);
     }
 }

@@ -9,16 +9,19 @@ import lombok.Setter;
 public class PaginationRequestParamDto {
 
     @NotNull
-    public int pageNum = 0;
+    public int pageNum;
 
     @NotNull
-    public int perPage = 20;
+    public int perPage;
 
-    public String startDate;
+    public Sorting sort = Sorting.ASC;
 
-    public String endDate;
+    public String sortField = "noticeEdt";
+
+    public String searchStartDate;
+
+    public String searchEndDate;
 
     public String kind;
 
-    public Sorting sort = Sorting.ASC;
 }

@@ -26,5 +26,4 @@ public class OpenApiConstant {
 
     public static final int MAX_ATTEMPT = 5;
 
-
 }
