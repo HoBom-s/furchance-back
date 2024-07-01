@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,9 +26,9 @@ public class AbandonedAnimalController {
     }
 
     @GetMapping(Url.AbandonedAnimal.PAGINATION)
-    public Page<AbandonedAnimalResponseDto> getAbandonedAnimalPagination(@ModelAttribute @Valid PaginationRequestParamDto paginationRequestParamDto) {
+    public ResponseEntity<ApiResponse<Page<AbandonedAnimalResponseDto>>> getAbandonedAnimalPagination(@ModelAttribute @Valid PaginationRequestParamDto paginationRequestParamDto) {
 
-        return abandonedAnimalService.getAbandonedAnimalPagination(paginationRequestParamDto);
+        return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: abandoned animals pagination", abandonedAnimalService.getAbandonedAnimalPagination(paginationRequestParamDto)));
     }
 
 }
