@@ -45,7 +45,7 @@ public class AbandonedAnimalBackUp {
     @Column(name = "notice_start_date")
     private String noticeSdt;
 
-    @Column(name = "notice_edit_date")
+    @Column(name = "notice_end_date")
     private String noticeEdt;
 
     @Column(name = "big_profile_img")

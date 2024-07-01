@@ -20,6 +20,7 @@ public class Util {
 
     public static class CustomParser {
 
+        // @Todo: validation for random secretKey error
         public static JsonNode parseStringToJson(String stringJson) throws JsonProcessingException {
             ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             return objectMapper.readTree(stringJson);
