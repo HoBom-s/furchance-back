@@ -9,6 +9,11 @@ public class Url {
         public static final String BASE_URL = "/api/v1/abandoned-animals";
 
         public static final String PAGINATION = "/pagination";
-
     }
+
+    public static class User {
+
+        public static final String BASE_URL = "/api/v1/users";
+    }
+
 }

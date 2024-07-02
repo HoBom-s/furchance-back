@@ -1,6 +1,6 @@
 package com.hobom.furchance.openapi;
 
-import com.hobom.furchance.constant.OpenApiConstant;
+import com.hobom.furchance.openapi.constant.OpenApiConstant;
 import feign.Retryer;
 import org.springframework.context.annotation.Bean;
 

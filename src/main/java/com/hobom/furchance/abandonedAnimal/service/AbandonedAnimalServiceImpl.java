@@ -21,6 +21,8 @@ public class AbandonedAnimalServiceImpl implements AbandonedAnimalService {
 
     private final AbandonedAnimalRepository abandonedAnimalRepository;
 
+    private final AbandonedAnimalSpecification abandonedAnimalSpecification;
+
     @Override
     public AbandonedAnimalResponseDto getOneAbandonedAnimal(Long id) {
 
@@ -40,6 +42,6 @@ public class AbandonedAnimalServiceImpl implements AbandonedAnimalService {
 
         Pageable pageable = PageRequest.of(pageNum, perPage, sortDirection, sortField);
 
-        return abandonedAnimalRepository.findAll(AbandonedAnimalSpecification.withFilters(paginationRequestParamDto),pageable).map(AbandonedAnimalResponseDto::from);
+        return abandonedAnimalRepository.findAll(abandonedAnimalSpecification.withFilters(paginationRequestParamDto),pageable).map(AbandonedAnimalResponseDto::from);
     }
 }

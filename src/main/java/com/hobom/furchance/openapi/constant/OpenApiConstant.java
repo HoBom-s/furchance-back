@@ -1,4 +1,4 @@
-package com.hobom.furchance.constant;
+package com.hobom.furchance.openapi.constant;
 
 import com.hobom.furchance.util.Util;
 

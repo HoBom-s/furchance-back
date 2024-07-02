@@ -4,12 +4,14 @@ import com.hobom.furchance.abandonedAnimal.dto.PaginationRequestParamDto;
 import com.hobom.furchance.abandonedAnimal.entity.AbandonedAnimal;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class AbandonedAnimalSpecification {
-    public static Specification<AbandonedAnimal> withFilters(PaginationRequestParamDto paginationRequestParamDto) {
+    public Specification<AbandonedAnimal> withFilters(PaginationRequestParamDto paginationRequestParamDto) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 

@@ -1,21 +1,20 @@
 package com.hobom.furchance.dto;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class ApiResponse<T> {
 
-    private final int status;
+    private int status;
 
-    private final String message;
+    private String message;
 
-    private final T data;
+    private T data;
 
     public static <T> ApiResponse<T> of(HttpStatus status, String message, T data) {
         return new ApiResponse<>(status.value(), message, data);

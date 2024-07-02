@@ -26,6 +26,7 @@ repositories {
 dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	// DB
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
