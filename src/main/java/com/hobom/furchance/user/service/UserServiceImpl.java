@@ -1,11 +1,12 @@
 package com.hobom.furchance.user.service;
 
-import com.hobom.furchance.user.dto.UserCreateRequestDto;
+import com.hobom.furchance.auth.dto.SignUpRequestDto;
 import com.hobom.furchance.user.dto.UserResponseDto;
 import com.hobom.furchance.user.dto.UserUpdateRequestDto;
 import com.hobom.furchance.user.entity.User;
 import com.hobom.furchance.user.repository.UserRepository;
-import com.hobom.furchance.user.util.PasswordUtils;
+import com.hobom.furchance.auth.util.JwtUtils;
+import com.hobom.furchance.auth.util.PasswordUtils;
 import com.mchange.util.AlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,17 +23,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserValidationService userValidationService;
 
-    @Override
-    public UserResponseDto createOneUser(UserCreateRequestDto userCreateRequestDto) throws AlreadyExistsException {
-
-        userValidationService.validateNickname(userCreateRequestDto.getNickname());
-
-        String encodedPassword = passwordUtils.encodePassword(userCreateRequestDto.getPassword());
-
-        User createdUser = userRepository.save(User.of(userCreateRequestDto.getNickname(), encodedPassword));
-
-        return UserResponseDto.from(createdUser);
-    }
+    private final JwtUtils jwtUtils;
 
     @Override
     public UserResponseDto getOneUser(Long id) {
@@ -69,4 +60,6 @@ public class UserServiceImpl implements UserService {
 
         return UserResponseDto.from(foundUser);
     }
+
+
 }

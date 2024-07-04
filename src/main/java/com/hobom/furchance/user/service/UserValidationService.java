@@ -29,4 +29,9 @@ public class UserValidationService {
         return userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
+    public User findOneUserByNickname(String nickname) {
+
+        return userRepository.findByNickname(nickname).orElseThrow(EntityNotFoundException::new);
+    }
+
 }
