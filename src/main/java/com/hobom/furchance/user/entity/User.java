@@ -44,5 +44,4 @@ public class User {
     public static User of(String nickname, String password) {
         return new User(nickname, password);
     }
-
 }

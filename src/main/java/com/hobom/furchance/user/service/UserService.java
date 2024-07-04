@@ -14,5 +14,4 @@ public interface UserService {
     public UserResponseDto updateOneUser(Long id, UserUpdateRequestDto userUpdateRequestDto);
 
     public UserResponseDto removeOneUser(Long id);
-
 }

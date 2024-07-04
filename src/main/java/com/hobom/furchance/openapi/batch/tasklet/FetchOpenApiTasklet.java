@@ -26,7 +26,7 @@ public class FetchOpenApiTasklet implements Tasklet {
 
     public static List<JsonNode> tempStorage = new ArrayList<>();
 
-    @Value("${openapi.authKey.d}")
+    @Value("${openapi.authKey-d}")
     private String serviceKey;
 
     @Override

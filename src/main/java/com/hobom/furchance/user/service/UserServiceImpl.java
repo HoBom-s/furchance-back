@@ -5,14 +5,11 @@ import com.hobom.furchance.user.dto.UserResponseDto;
 import com.hobom.furchance.user.dto.UserUpdateRequestDto;
 import com.hobom.furchance.user.entity.User;
 import com.hobom.furchance.user.repository.UserRepository;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
+import com.hobom.furchance.user.util.PasswordUtils;
+import com.mchange.util.AlreadyExistsException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -21,14 +18,16 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordUtils passwordUtils;
+
+    private final UserValidationService userValidationService;
 
     @Override
-    public UserResponseDto createOneUser(UserCreateRequestDto userCreateRequestDto) {
+    public UserResponseDto createOneUser(UserCreateRequestDto userCreateRequestDto) throws AlreadyExistsException {
 
-        isNicknameValid(userCreateRequestDto.getNickname());
+        userValidationService.validateNickname(userCreateRequestDto.getNickname());
 
-        String encodedPassword = encodePassword(userCreateRequestDto.getPassword());
+        String encodedPassword = passwordUtils.encodePassword(userCreateRequestDto.getPassword());
 
         User createdUser = userRepository.save(User.of(userCreateRequestDto.getNickname(), encodedPassword));
 
@@ -38,15 +37,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto getOneUser(Long id) {
 
-        return UserResponseDto.from(findOneUserById(id));
+        return UserResponseDto.from(userValidationService.findOneUserById(id));
     }
 
     @Override
     public UserResponseDto updateOneUser(Long id, UserUpdateRequestDto userUpdateRequestDto) {
 
-        User foundUser = findOneUserById(id);
+        User foundUser = userValidationService.findOneUserById(id);
 
-        String encodedPassword = encodePassword(userUpdateRequestDto.getPassword());
+        String encodedPassword = passwordUtils.encodePassword(userUpdateRequestDto.getPassword());
 
         foundUser.setNickname(userUpdateRequestDto.getNickname());
         foundUser.setPassword(encodedPassword);
@@ -59,7 +58,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto removeOneUser(Long id) {
 
-        User foundUser = findOneUserById(id);
+        User foundUser = userValidationService.findOneUserById(id);
 
         if(foundUser.isDeleted()) {
             // @Todo customize Exception
@@ -69,22 +68,5 @@ public class UserServiceImpl implements UserService {
         foundUser.setDeleted(true);
 
         return UserResponseDto.from(foundUser);
-    }
-
-    private void isNicknameValid(String nickname) {
-
-        Optional<User> foundUser = userRepository.findByNickname(nickname);
-
-        if(foundUser.isPresent()) {
-            throw new EntityExistsException("Same nickname already exists");
-        }
-    }
-
-    private User findOneUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-    }
-
-    private String encodePassword(String rawPassword) {
-        return passwordEncoder.encode(rawPassword);
     }
 }
