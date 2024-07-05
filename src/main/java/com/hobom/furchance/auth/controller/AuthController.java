@@ -1,6 +1,7 @@
 package com.hobom.furchance.auth.controller;
 
 import com.hobom.furchance.auth.dto.SignUpRequestDto;
+import com.hobom.furchance.auth.dto.UserLoginResponseDto;
 import com.hobom.furchance.auth.service.AuthService;
 import com.hobom.furchance.dto.ApiResponse;
 import com.hobom.furchance.url.Url;
@@ -28,7 +29,7 @@ public class AuthController {
     }
 
     @PostMapping(Url.User.LOGIN)
-    public ResponseEntity<ApiResponse<UserResponseDto>> logIn(@RequestBody @Valid UserLogInRequestDto userLogInRequestDto, HttpServletResponse httpServletResponse) {
+    public ResponseEntity<ApiResponse<UserLoginResponseDto>> logIn(@RequestBody @Valid UserLogInRequestDto userLogInRequestDto, HttpServletResponse httpServletResponse) {
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: log in", authService.logIn(userLogInRequestDto, httpServletResponse)));
     }

@@ -19,6 +19,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class JwtUtils {
 
+    @Value("${spring.application.name}")
+    private String serviceName;
+
     @Value("${jwt.secret}")
     private String jwtSecret;
 
@@ -74,9 +77,13 @@ public class JwtUtils {
         Cookie jwtCookie = new Cookie("accessToken", accessToken);
 
         jwtCookie.setHttpOnly(true);
-        jwtCookie.setMaxAge(2 * 60 * 60);
+        jwtCookie.setMaxAge(60 * 60);
 
         response.addCookie(jwtCookie);
+    }
+
+    public String createRedisKey(User user) {
+        return serviceName + "_" + user.getId() + "_" + user.getNickname();
     }
 
 }

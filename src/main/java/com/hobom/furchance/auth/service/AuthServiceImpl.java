@@ -2,6 +2,7 @@ package com.hobom.furchance.auth.service;
 
 import com.hobom.furchance.auth.dto.SignUpRequestDto;
 import com.hobom.furchance.auth.dto.UserLogInRequestDto;
+import com.hobom.furchance.auth.dto.UserLoginResponseDto;
 import com.hobom.furchance.auth.util.JwtUtils;
 import com.hobom.furchance.auth.util.PasswordUtils;
 import com.hobom.furchance.config.RedisConfig;
@@ -45,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserResponseDto logIn(UserLogInRequestDto userLogInRequestDto, HttpServletResponse httpServletResponse) {
+    public UserLoginResponseDto logIn(UserLogInRequestDto userLogInRequestDto, HttpServletResponse httpServletResponse) {
 
         User foundUser = userValidationService.findOneUserByNickname(userLogInRequestDto.getNickname());
 
@@ -55,16 +56,17 @@ public class AuthServiceImpl implements AuthService {
             throw new BadCredentialsException("Invalid password");
         }
 
-        // @Todo 헤더 쿠키 세팅
         String accessToken = jwtUtils.generateAccessToken(foundUser);
-        String refreshToken = jwtUtils.generateRefreshToken(foundUser);
-
-        RedisAsyncCommands<String, String> asyncCommands = redisConfig.connectRedis();
-
-        asyncCommands.set("refreshToken", refreshToken);
-
         jwtUtils.setTokenToCookie(httpServletResponse, accessToken);
 
-        return UserResponseDto.from(foundUser);
+        String refreshToken = jwtUtils.generateRefreshToken(foundUser);
+        String redisKey = jwtUtils.createRedisKey(foundUser);
+
+        RedisAsyncCommands<String, String> asyncCommands = redisConfig.connectRedis();
+        asyncCommands.set(redisKey, refreshToken);
+        asyncCommands.expire(redisKey, 60 * 60 * 24);
+
+
+        return UserLoginResponseDto.from(foundUser, accessToken);
     }
 }
