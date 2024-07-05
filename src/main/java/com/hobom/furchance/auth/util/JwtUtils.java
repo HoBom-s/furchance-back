@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,15 +16,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 public class JwtUtils {
 
     @Value("${jwt.secret}")
     private String jwtSecret;
 
-    @Value("${jwt.access-token.exp}")
+    @Value("${jwt.access-token-exp}")
     private Long accessTokenExpirationTime;
 
-    @Value("${jwt.refresh-token.exp}")
+    @Value("${jwt.refresh-token-exp}")
     private Long refreshTokenExpirationTime;
 
     private Key getSigningKey() {

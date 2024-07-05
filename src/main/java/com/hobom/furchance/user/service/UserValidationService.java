@@ -4,6 +4,7 @@ import com.hobom.furchance.user.entity.User;
 import com.hobom.furchance.user.repository.UserRepository;
 import com.mchange.util.AlreadyExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,9 +12,10 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class UserValidationService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public void validateNickname(String nickname) throws AlreadyExistsException {
 

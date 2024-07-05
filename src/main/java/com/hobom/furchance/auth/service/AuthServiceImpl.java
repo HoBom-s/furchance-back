@@ -4,11 +4,13 @@ import com.hobom.furchance.auth.dto.SignUpRequestDto;
 import com.hobom.furchance.auth.dto.UserLogInRequestDto;
 import com.hobom.furchance.auth.util.JwtUtils;
 import com.hobom.furchance.auth.util.PasswordUtils;
+import com.hobom.furchance.config.RedisConfig;
 import com.hobom.furchance.user.dto.UserResponseDto;
 import com.hobom.furchance.user.entity.User;
 import com.hobom.furchance.user.repository.UserRepository;
 import com.hobom.furchance.user.service.UserValidationService;
 import com.mchange.util.AlreadyExistsException;
+import io.lettuce.core.api.async.RedisAsyncCommands;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,6 +29,8 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordUtils passwordUtils;
 
     private final JwtUtils jwtUtils;
+
+    private final RedisConfig redisConfig;
 
     @Override
     public UserResponseDto signUp(SignUpRequestDto userCreateRequestDto) throws AlreadyExistsException {
@@ -53,6 +57,11 @@ public class AuthServiceImpl implements AuthService {
 
         // @Todo 헤더 쿠키 세팅
         String accessToken = jwtUtils.generateAccessToken(foundUser);
+        String refreshToken = jwtUtils.generateRefreshToken(foundUser);
+
+        RedisAsyncCommands<String, String> asyncCommands = redisConfig.connectRedis();
+
+        asyncCommands.set("refreshToken", refreshToken);
 
         jwtUtils.setTokenToCookie(httpServletResponse, accessToken);
 

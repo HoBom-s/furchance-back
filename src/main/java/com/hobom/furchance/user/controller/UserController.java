@@ -2,11 +2,9 @@ package com.hobom.furchance.user.controller;
 
 import com.hobom.furchance.dto.ApiResponse;
 import com.hobom.furchance.url.Url;
-import com.hobom.furchance.auth.dto.SignUpRequestDto;
 import com.hobom.furchance.user.dto.UserResponseDto;
 import com.hobom.furchance.user.dto.UserUpdateRequestDto;
 import com.hobom.furchance.user.service.UserService;
-import com.mchange.util.AlreadyExistsException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

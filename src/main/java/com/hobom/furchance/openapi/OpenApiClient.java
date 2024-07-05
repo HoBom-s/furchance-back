@@ -17,5 +17,4 @@ public interface OpenApiClient {
     String getOpenApiAbandonedAnimals (
            @SpringQueryMap OpenApiRequestParamDto openApiRequestParamDto
     );
-
 }

@@ -1,7 +1,7 @@
 package com.hobom.furchance.auth.controller;
 
 import com.hobom.furchance.auth.dto.SignUpRequestDto;
-import com.hobom.furchance.auth.service.AuthServiceImpl;
+import com.hobom.furchance.auth.service.AuthService;
 import com.hobom.furchance.dto.ApiResponse;
 import com.hobom.furchance.url.Url;
 import com.hobom.furchance.auth.dto.UserLogInRequestDto;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthServiceImpl authService;
+    private final AuthService authService;
 
     @PostMapping(Url.User.SIGNUP)
     public ResponseEntity<ApiResponse<UserResponseDto>> signUp(@RequestBody @Valid SignUpRequestDto userCreateRequestDto) throws AlreadyExistsException {

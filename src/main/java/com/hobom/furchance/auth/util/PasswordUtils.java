@@ -23,5 +23,4 @@ public class PasswordUtils {
 
         return passwordEncoder.matches(rawPassword, foundUser.getPassword());
     }
-
 }

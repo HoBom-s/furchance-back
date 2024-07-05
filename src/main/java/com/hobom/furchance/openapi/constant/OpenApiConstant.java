@@ -1,6 +1,6 @@
 package com.hobom.furchance.openapi.constant;
 
-import com.hobom.furchance.util.Util;
+import com.hobom.furchance.abandonedAnimal.util.Util;
 
 public class OpenApiConstant {
 

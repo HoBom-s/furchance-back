@@ -36,7 +36,6 @@ public class OpenApiQuartzConfiguration {
                 .forJob(jobDetail)
                 .withIdentity("openApiJobTrigger")
 //                .withSchedule(CronScheduleBuilder.cronSchedule("0 0 0 * * ?"))
-//                .withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInMinutes(10))
                 .startNow()
                 .build();
     }

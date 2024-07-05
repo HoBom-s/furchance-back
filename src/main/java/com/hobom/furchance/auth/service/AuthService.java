@@ -11,4 +11,5 @@ public interface AuthService{
     UserResponseDto signUp(SignUpRequestDto signUpRequestDto) throws AlreadyExistsException;
 
     UserResponseDto logIn(UserLogInRequestDto userLogInRequestDto, HttpServletResponse httpServletResponse);
+
 }
