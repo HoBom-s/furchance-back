@@ -1,6 +1,7 @@
 package com.hobom.furchance.auth.util;
 
 import com.hobom.furchance.user.entity.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -14,6 +15,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
@@ -49,7 +51,7 @@ public class JwtUtils {
                 .compact();
     }
 
-    public Map<String, Long> createUserIdClaim(User user){
+    private Map<String, Long> createUserIdClaim(User user) {
 
         Map<String, Long> userIdClaim = new HashMap<>();
 
@@ -72,6 +74,10 @@ public class JwtUtils {
         return createToken(user.getNickname(), refreshTokenExpirationTime, userIdClaim);
     }
 
+    public String createRedisKey(User user) {
+        return serviceName + "_" + user.getId() + "_" + user.getNickname();
+    }
+
     public void setTokenToCookie(HttpServletResponse response, String accessToken) {
 
         Cookie jwtCookie = new Cookie("accessToken", accessToken);
@@ -82,8 +88,39 @@ public class JwtUtils {
         response.addCookie(jwtCookie);
     }
 
-    public String createRedisKey(User user) {
-        return serviceName + "_" + user.getId() + "_" + user.getNickname();
+    public String extractAccessToken(String authHeader) {
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Invalid Authorization header format");
+        }
+
+        String accessToken = authHeader.substring(7);
+
+        if (!isValidToken(accessToken)) {
+            // @Todo refreshToken 더블체크 후 조치
+            throw new RuntimeException("Invalid token");
+        }
+
+        return accessToken;
     }
 
+    public boolean isValidToken(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    public Long extractUserId(String token) {
+        return extractAllClaims(token).get("userId", Long.class);
+    }
+
+    private Date extractExpiration(String token) {
+        return extractAllClaims(token).getExpiration();
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(jwtSecret)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
 }

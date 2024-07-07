@@ -62,6 +62,7 @@ public class AuthServiceImpl implements AuthService {
         String refreshToken = jwtUtils.generateRefreshToken(foundUser);
         String redisKey = jwtUtils.createRedisKey(foundUser);
 
+        // @Todo Redis key 중복 시 삭제
         RedisAsyncCommands<String, String> asyncCommands = redisConfig.connectRedis();
         asyncCommands.set(redisKey, refreshToken);
         asyncCommands.expire(redisKey, 60 * 60 * 24);
