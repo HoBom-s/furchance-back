@@ -1,7 +1,7 @@
 package com.hobom.furchance.config;
 
 import io.lettuce.core.RedisClient;
-import io.lettuce.core.api.async.RedisAsyncCommands;
+import io.lettuce.core.api.sync.RedisCommands;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,10 +13,10 @@ public class RedisConfig {
     private String redisUrl;
 
     @Bean
-    public RedisAsyncCommands<String, String> connectRedis() {
+    public RedisCommands<String, String> connectRedis() {
 
         RedisClient redisClient = RedisClient.create(redisUrl);
 
-        return redisClient.connect().async();
+        return redisClient.connect().sync();
     }
 }

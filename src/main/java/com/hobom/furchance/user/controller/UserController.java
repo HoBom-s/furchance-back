@@ -29,7 +29,6 @@ public class UserController {
     @PatchMapping(Url.ID_PARAM)
     public ResponseEntity<ApiResponse<UserResponseDto>> updateOneUser(@RequestHeader("Authorization") String authHeader, @PathVariable("id") Long id, @RequestBody @Valid UserUpdateRequestDto userUpdateRequestDto) {
 
-        // @Todo Authorization Header JwtUtils
         String accessToken = jwtUtils.extractAccessToken(authHeader);
 
         Long userId = jwtUtils.extractUserId(accessToken);

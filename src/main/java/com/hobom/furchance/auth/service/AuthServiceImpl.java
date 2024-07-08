@@ -33,6 +33,8 @@ public class AuthServiceImpl implements AuthService {
 
     private final RedisConfig redisConfig;
 
+    private final RedisService redisService;
+
     @Override
     public UserResponseDto signUp(SignUpRequestDto userCreateRequestDto) throws AlreadyExistsException {
 
@@ -56,17 +58,11 @@ public class AuthServiceImpl implements AuthService {
             throw new BadCredentialsException("Invalid password");
         }
 
-        String accessToken = jwtUtils.generateAccessToken(foundUser);
-        jwtUtils.setTokenToCookie(httpServletResponse, accessToken);
+        String accessToken = jwtUtils.generateToken(foundUser, "access");
+        jwtUtils.setAccessTokenToCookie(httpServletResponse, accessToken);
 
-        String refreshToken = jwtUtils.generateRefreshToken(foundUser);
-        String redisKey = jwtUtils.createRedisKey(foundUser);
-
-        // @Todo Redis key 중복 시 삭제
-        RedisAsyncCommands<String, String> asyncCommands = redisConfig.connectRedis();
-        asyncCommands.set(redisKey, refreshToken);
-        asyncCommands.expire(redisKey, 60 * 60 * 24);
-
+        String refreshToken = jwtUtils.generateToken(foundUser, "refresh");
+        redisService.setRefreshToken(foundUser, refreshToken);
 
         return UserLoginResponseDto.from(foundUser, accessToken);
     }

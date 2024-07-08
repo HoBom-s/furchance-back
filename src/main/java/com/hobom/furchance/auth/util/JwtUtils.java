@@ -1,28 +1,33 @@
 package com.hobom.furchance.auth.util;
 
+import com.hobom.furchance.auth.service.RedisService;
 import com.hobom.furchance.user.entity.User;
+import com.hobom.furchance.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 @Component
+@Transactional
 @RequiredArgsConstructor
 public class JwtUtils {
 
-    @Value("${spring.application.name}")
-    private String serviceName;
+    private final RedisService redisService;
+
+    private final UserRepository userRepository;
 
     @Value("${jwt.secret}")
     private String jwtSecret;
@@ -32,6 +37,9 @@ public class JwtUtils {
 
     @Value("${jwt.refresh-token-exp}")
     private Long refreshTokenExpirationTime;
+
+    @Value("${spring.application.name}")
+    private String serviceName;
 
     private Key getSigningKey() {
 
@@ -60,25 +68,21 @@ public class JwtUtils {
         return userIdClaim;
     }
 
-    public String generateAccessToken(User user) {
+    public String generateToken(User user, String tokenFlag) {
 
         Map<String, Long> userIdClaim = createUserIdClaim(user);
 
-        return createToken(user.getNickname(), accessTokenExpirationTime, userIdClaim);
+        if (tokenFlag.equals("access")) {
+            return createToken(user.getNickname(), accessTokenExpirationTime, userIdClaim);
+        } else if (tokenFlag.equals("refresh")) {
+            return createToken(user.getNickname(), refreshTokenExpirationTime, userIdClaim);
+        }
+
+        throw new RuntimeException("Valid tokenFlag needed");
     }
 
-    public String generateRefreshToken(User user) {
 
-        Map<String, Long> userIdClaim = createUserIdClaim(user);
-
-        return createToken(user.getNickname(), refreshTokenExpirationTime, userIdClaim);
-    }
-
-    public String createRedisKey(User user) {
-        return serviceName + "_" + user.getId() + "_" + user.getNickname();
-    }
-
-    public void setTokenToCookie(HttpServletResponse response, String accessToken) {
+    public void setAccessTokenToCookie(HttpServletResponse response, String accessToken) {
 
         Cookie jwtCookie = new Cookie("accessToken", accessToken);
 
@@ -96,15 +100,29 @@ public class JwtUtils {
 
         String accessToken = authHeader.substring(7);
 
-        if (!isValidToken(accessToken)) {
-            // @Todo refreshToken 더블체크 후 조치
-            throw new RuntimeException("Invalid token");
+        if (!isTokenValid(accessToken)) {
+            return regenerateAccessToken(accessToken);
         }
 
         return accessToken;
     }
 
-    public boolean isValidToken(String token) {
+    private String regenerateAccessToken(String accessToken) {
+
+        User foundUser = userRepository.findById(extractUserId(accessToken)).orElseThrow(EntityNotFoundException::new);
+
+        String refreshToken = redisService.getRefreshToken(foundUser);
+
+        boolean isRefreshTokenValid = isTokenValid(refreshToken);
+
+        if (isRefreshTokenValid) {
+            return generateToken(foundUser, "access");
+        }
+
+        throw new RuntimeException("Token expired: Both Access & Refresh token expired. Please log in again.");
+    }
+
+    private boolean isTokenValid(String token) {
         return extractExpiration(token).before(new Date());
     }
 
