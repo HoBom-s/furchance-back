@@ -92,7 +92,7 @@ public class JwtUtils {
         response.addCookie(jwtCookie);
     }
 
-    public String extractAccessToken(String authHeader) {
+   /* public String extractAccessToken(String authHeader) {
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new IllegalArgumentException("Invalid Authorization header format");
@@ -105,9 +105,9 @@ public class JwtUtils {
         }
 
         return accessToken;
-    }
+    }*/
 
-    private String regenerateAccessToken(String accessToken) {
+    public String regenerateAccessToken(String accessToken) {
 
         User foundUser = userRepository.findById(extractUserId(accessToken)).orElseThrow(EntityNotFoundException::new);
 
@@ -122,7 +122,7 @@ public class JwtUtils {
         throw new RuntimeException("Token expired: Both Access & Refresh token expired. Please log in again.");
     }
 
-    private boolean isTokenValid(String token) {
+    public boolean isTokenValid(String token) {
         return extractExpiration(token).before(new Date());
     }
 

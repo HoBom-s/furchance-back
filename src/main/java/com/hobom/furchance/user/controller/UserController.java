@@ -1,6 +1,5 @@
 package com.hobom.furchance.user.controller;
 
-import com.hobom.furchance.auth.util.JwtUtils;
 import com.hobom.furchance.dto.ApiResponse;
 import com.hobom.furchance.url.Url;
 import com.hobom.furchance.user.dto.UserResponseDto;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    private final JwtUtils jwtUtils;
 
     @GetMapping(Url.ID_PARAM)
     public ResponseEntity<ApiResponse<UserResponseDto>> getOneUser(@PathVariable("id") Long id) {
@@ -27,15 +25,7 @@ public class UserController {
     }
 
     @PatchMapping(Url.ID_PARAM)
-    public ResponseEntity<ApiResponse<UserResponseDto>> updateOneUser(@RequestHeader("Authorization") String authHeader, @PathVariable("id") Long id, @RequestBody @Valid UserUpdateRequestDto userUpdateRequestDto) {
-
-        String accessToken = jwtUtils.extractAccessToken(authHeader);
-
-        Long userId = jwtUtils.extractUserId(accessToken);
-
-        if(userId != id) {
-            throw new RuntimeException("Auth userId does not match the requested userId");
-        }
+    public ResponseEntity<ApiResponse<UserResponseDto>> updateOneUser(@PathVariable("id") Long id, @RequestBody @Valid UserUpdateRequestDto userUpdateRequestDto) {
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: update one user", userService.updateOneUser(id, userUpdateRequestDto)));
     }
