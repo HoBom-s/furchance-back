@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -92,21 +93,6 @@ public class JwtUtils {
         response.addCookie(jwtCookie);
     }
 
-   /* public String extractAccessToken(String authHeader) {
-
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new IllegalArgumentException("Invalid Authorization header format");
-        }
-
-        String accessToken = authHeader.substring(7);
-
-        if (!isTokenValid(accessToken)) {
-            return regenerateAccessToken(accessToken);
-        }
-
-        return accessToken;
-    }*/
-
     public String regenerateAccessToken(String accessToken) {
 
         User foundUser = userRepository.findById(extractUserId(accessToken)).orElseThrow(EntityNotFoundException::new);
@@ -136,7 +122,7 @@ public class JwtUtils {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(jwtSecret)
+                .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();

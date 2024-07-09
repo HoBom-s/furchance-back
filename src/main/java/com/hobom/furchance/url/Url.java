@@ -14,6 +14,11 @@ public class Url {
     public static class User {
 
         public static final String BASE_URL = "/api/v1/users";
+    }
+
+    public static class Auth {
+
+        public static final String BASE_URL = "/api/v1/auth";
 
         public static final String SIGNUP = "/signup";
 

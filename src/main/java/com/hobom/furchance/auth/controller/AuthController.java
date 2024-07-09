@@ -16,19 +16,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(Url.User.BASE_URL)
+@RequestMapping(Url.Auth.BASE_URL)
 @RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping(Url.User.SIGNUP)
+    @PostMapping(Url.Auth.SIGNUP)
     public ResponseEntity<ApiResponse<UserResponseDto>> signUp(@RequestBody @Valid SignUpRequestDto userCreateRequestDto) throws AlreadyExistsException {
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: sign up one user", authService.signUp(userCreateRequestDto)));
     }
 
-    @PostMapping(Url.User.LOGIN)
+    @PostMapping(Url.Auth.LOGIN)
     public ResponseEntity<ApiResponse<UserLoginResponseDto>> logIn(@RequestBody @Valid UserLogInRequestDto userLogInRequestDto, HttpServletResponse httpServletResponse) {
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: log in", authService.logIn(userLogInRequestDto, httpServletResponse)));
