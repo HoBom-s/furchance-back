@@ -18,8 +18,6 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        System.out.println("--- preHandle Interceptor working ---");
-
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -34,15 +32,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         Long extractedUserId = jwtUtils.extractUserId(accessToken);
-        Long givenUserId = Long.valueOf(request.getParameter("id"));
-
-        System.out.println("extractedUserId = " + extractedUserId);
-        System.out.println("givenUserId = " + givenUserId);
-
-        if(!Objects.equals(extractedUserId, givenUserId)) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return false;
-        }
+        request.setAttribute("verifiedUserId", extractedUserId);
 
         return true;
     }

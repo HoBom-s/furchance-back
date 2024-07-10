@@ -24,8 +24,7 @@ public class RedisService {
 
         String key = createRedisKey(user);
 
-        redisConfig.connectRedis().setnx(key, token);
-        redisConfig.connectRedis().expire(key, 60 * 60 * 24); // 1day
+        redisConfig.connectRedis().setex(key, 60 * 60 * 24, token);
     }
 
     public String getRefreshToken(User user) {

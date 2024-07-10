@@ -5,7 +5,6 @@ import com.hobom.furchance.user.entity.User;
 import com.hobom.furchance.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.Cookie;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -51,13 +49,15 @@ public class JwtUtils {
 
     private String createToken(String subject, long expirationTime, Map<String, Long> userIdClaim) {
 
-        return Jwts.builder()
+        String token = Jwts.builder()
                 .setSubject(subject)
                 .setClaims(userIdClaim)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .signWith(getSigningKey())
                 .compact();
+
+        return token;
     }
 
     private Map<String, Long> createUserIdClaim(User user) {
@@ -109,7 +109,8 @@ public class JwtUtils {
     }
 
     public boolean isTokenValid(String token) {
-        return extractExpiration(token).before(new Date());
+
+        return extractExpiration(token).after(new Date());
     }
 
     public Long extractUserId(String token) {
@@ -121,10 +122,11 @@ public class JwtUtils {
     }
 
     private Claims extractAllClaims(String token) {
+
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
-                .parseClaimsJws(token)
+                .parseClaimsJws(token) // @WIP
                 .getBody();
     }
 }
