@@ -49,15 +49,13 @@ public class JwtUtils {
 
     private String createToken(String subject, long expirationTime, Map<String, Long> userIdClaim) {
 
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .setSubject(subject)
                 .setClaims(userIdClaim)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(getSigningKey())
                 .compact();
-
-        return token;
     }
 
     private Map<String, Long> createUserIdClaim(User user) {
