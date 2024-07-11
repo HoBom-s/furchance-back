@@ -13,7 +13,7 @@ public interface ArticleService {
 
     ArticleResponseDto createOneArticle(Long userId, ArticleCreateRequestDto articleCreateRequestDto);
 
-    ArticleResponseDto updateOneArticle(Long id, ArticleUpdateRequestDto articleUpdateRequestDto);
+    ArticleResponseDto updateOneArticle(Long id, Long userId, ArticleUpdateRequestDto articleUpdateRequestDto);
 
     ArticleResponseDto removeOneArticle(Long id);
 }

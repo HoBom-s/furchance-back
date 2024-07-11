@@ -13,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.management.RuntimeErrorException;
+import java.util.Objects;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -46,8 +49,22 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleResponseDto updateOneArticle(Long id, ArticleUpdateRequestDto articleUpdateRequestDto) {
-        return null;
+    public ArticleResponseDto updateOneArticle(Long id, Long userId, ArticleUpdateRequestDto articleUpdateRequestDto) {
+
+        Article foundArticle = articleRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+
+        Long writerId = foundArticle.getUser().getId();
+
+        if(!Objects.equals(writerId, userId)){
+            throw new RuntimeException("Failed: only the writer can update the article");
+        }
+
+        foundArticle.setTitle(articleUpdateRequestDto.getTitle());
+        foundArticle.setContents(articleUpdateRequestDto.getContents());
+
+        articleRepository.save(foundArticle);
+
+        return ArticleResponseDto.from(foundArticle);
     }
 
     @Override
