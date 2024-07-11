@@ -11,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.filter.RequestContextFilter;
 
-import javax.management.RuntimeErrorException;
 import java.util.Objects;
 
 @RestController
@@ -22,7 +20,6 @@ import java.util.Objects;
 public class UserController {
 
     private final UserService userService;
-    private final RequestContextFilter requestContextFilter;
 
     @GetMapping(Url.ID_PARAM)
     public ResponseEntity<ApiResponse<UserResponseDto>> getOneUser(@PathVariable("id") Long id) {
@@ -31,7 +28,7 @@ public class UserController {
     }
 
     @PatchMapping(Url.ID_PARAM)
-    public ResponseEntity<ApiResponse<UserResponseDto>> updateOneUser(@PathVariable("id") Long id, @RequestBody @Valid UserUpdateRequestDto userUpdateRequestDto,  HttpServletRequest request) {
+    public ResponseEntity<ApiResponse<UserResponseDto>> updateOneUser(@PathVariable("id") Long id, @RequestBody @Valid UserUpdateRequestDto userUpdateRequestDto, HttpServletRequest request) {
 
         Long verifiedUserId = (Long) request.getAttribute("verifiedUserId");
 

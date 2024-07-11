@@ -25,4 +25,9 @@ public class Url {
         public static final String LOGIN = "/login";
     }
 
+    public static class Article {
+
+        public static final String BASE_URL = "/api/v1/articles";
+    }
+
 }

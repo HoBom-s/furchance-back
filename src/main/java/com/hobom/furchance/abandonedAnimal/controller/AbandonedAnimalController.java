@@ -1,7 +1,7 @@
 package com.hobom.furchance.abandonedAnimal.controller;
 
 import com.hobom.furchance.abandonedAnimal.dto.AbandonedAnimalResponseDto;
-import com.hobom.furchance.abandonedAnimal.dto.PaginationRequestParamDto;
+import com.hobom.furchance.abandonedAnimal.dto.AbandonedAnimalPaginationRequestParamDto;
 import com.hobom.furchance.abandonedAnimal.service.AbandonedAnimalService;
 import com.hobom.furchance.dto.ApiResponse;
 import com.hobom.furchance.url.Url;
@@ -26,9 +26,9 @@ public class AbandonedAnimalController {
     }
 
     @GetMapping(Url.AbandonedAnimal.PAGINATION)
-    public ResponseEntity<ApiResponse<Page<AbandonedAnimalResponseDto>>> getAbandonedAnimalPagination(@ModelAttribute("paginationRequestParamDto") @Valid PaginationRequestParamDto paginationRequestParamDto) {
+    public ResponseEntity<ApiResponse<Page<AbandonedAnimalResponseDto>>> getAbandonedAnimalPagination(@ModelAttribute("paginationRequestParamDto") @Valid AbandonedAnimalPaginationRequestParamDto abandonedAnimalPaginationRequestParamDto) {
 
-        return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: abandoned animals pagination", abandonedAnimalService.getAbandonedAnimalPagination(paginationRequestParamDto)));
+        return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: abandoned animals pagination", abandonedAnimalService.getAbandonedAnimalPagination(abandonedAnimalPaginationRequestParamDto)));
     }
 
 }

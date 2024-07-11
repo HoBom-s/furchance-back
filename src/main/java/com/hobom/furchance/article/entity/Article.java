@@ -1,5 +1,6 @@
-package com.hobom.furchance.user.entity;
+package com.hobom.furchance.article.entity;
 
+import com.hobom.furchance.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,26 +10,30 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.util.Date;
 
 @Entity
-@Table(name = "user")
+@Table(name = "article")
 @Getter
 @Setter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "board_id")
     private Long id;
 
-    @Column(name = "nickname")
-    private String nickname;
+    @Column(name = "title")
+    private String title;
 
-    @Column(name = "password")
-    private String password;
+    @Column(name = "contents")
+    private String contents;
 
     @Column(name = "deleted")
     private boolean deleted = false;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @CreatedDate
     @Column(name = "created_at")
@@ -38,13 +43,13 @@ public class User {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    public User(String nickname, String password) {
-        this.nickname = nickname;
-        this.password = password;
+    public Article(String title, String contents, User user) {
+        this.title = title;
+        this.contents = contents;
+        this.user = user;
     }
 
-    public static User of(String nickname, String password) {
-        return new User(nickname, password);
+    public Article of(String title, String contents, User user) {
+        return new Article(title, contents, user);
     }
-
 }

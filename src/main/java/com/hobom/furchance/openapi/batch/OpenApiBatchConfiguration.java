@@ -1,7 +1,6 @@
 package com.hobom.furchance.openapi.batch;
 
 import com.hobom.furchance.openapi.batch.tasklet.*;
-import jakarta.persistence.SecondaryTable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -12,7 +11,6 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
@@ -38,7 +36,7 @@ public class OpenApiBatchConfiguration {
     }
 
     @Bean
-    public Step beforeFetch(BeforeFetchTasklet beforeFetchTasklet){
+    public Step beforeFetch(BeforeFetchTasklet beforeFetchTasklet) {
         return new StepBuilder("beforeFetch", jobRepository)
                 .tasklet(beforeFetchTasklet, transactionManager)
                 .build();

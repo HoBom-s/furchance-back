@@ -1,7 +1,7 @@
 package com.hobom.furchance.abandonedAnimal.service;
 
 import com.hobom.furchance.abandonedAnimal.dto.AbandonedAnimalResponseDto;
-import com.hobom.furchance.abandonedAnimal.dto.PaginationRequestParamDto;
+import com.hobom.furchance.abandonedAnimal.dto.AbandonedAnimalPaginationRequestParamDto;
 import com.hobom.furchance.abandonedAnimal.entity.AbandonedAnimal;
 import com.hobom.furchance.abandonedAnimal.repository.AbandonedAnimalRepository;
 import com.hobom.furchance.abandonedAnimal.repository.spec.AbandonedAnimalSpecification;
@@ -33,15 +33,15 @@ public class AbandonedAnimalServiceImpl implements AbandonedAnimalService {
     }
 
     @Override
-    public Page<AbandonedAnimalResponseDto> getAbandonedAnimalPagination(PaginationRequestParamDto paginationRequestParamDto) {
+    public Page<AbandonedAnimalResponseDto> getAbandonedAnimalPagination(AbandonedAnimalPaginationRequestParamDto abandonedAnimalPaginationRequestParamDto) {
 
-        int pageNum = paginationRequestParamDto.getPageNum() - 1;
-        int perPage = paginationRequestParamDto.getPerPage();
-        String sortField = paginationRequestParamDto.getSortField();
-        Sort.Direction sortDirection = Sort.Direction.fromString(String.valueOf(paginationRequestParamDto.getSort()));
+        int pageNum = abandonedAnimalPaginationRequestParamDto.getPageNum() - 1;
+        int perPage = abandonedAnimalPaginationRequestParamDto.getPerPage();
+        String sortField = abandonedAnimalPaginationRequestParamDto.getSortField();
+        Sort.Direction sortDirection = Sort.Direction.fromString(String.valueOf(abandonedAnimalPaginationRequestParamDto.getSort()));
 
         Pageable pageable = PageRequest.of(pageNum, perPage, sortDirection, sortField);
 
-        return abandonedAnimalRepository.findAll(abandonedAnimalSpecification.withFilters(paginationRequestParamDto),pageable).map(AbandonedAnimalResponseDto::from);
+        return abandonedAnimalRepository.findAll(abandonedAnimalSpecification.withFilters(abandonedAnimalPaginationRequestParamDto),pageable).map(AbandonedAnimalResponseDto::from);
     }
 }

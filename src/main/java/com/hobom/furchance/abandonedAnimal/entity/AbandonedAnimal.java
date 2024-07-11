@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "ABANDONED_ANIMAL")
+@Table(name = "abandoned_animal")
 @Getter
 @Setter
 public class AbandonedAnimal {

@@ -3,9 +3,11 @@ package com.hobom.furchance.openapi;
 import com.hobom.furchance.openapi.constant.OpenApiConstant;
 import feign.Retryer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.concurrent.TimeUnit;
 
+@Configuration
 public class OpenApiFeignClientRetryer {
 
     @Bean
