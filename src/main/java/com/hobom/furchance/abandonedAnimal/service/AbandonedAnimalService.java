@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 
 public interface AbandonedAnimalService {
 
-    AbandonedAnimalResponseDto getOneAbandonedAnimal(Long id);
+    AbandonedAnimalResponseDto getOneAbandonedAnimalById(Long id);
 
     Page<AbandonedAnimalResponseDto> getAbandonedAnimalPagination(AbandonedAnimalPaginationRequestParamDto abandonedAnimalPaginationRequestParamDto);
 

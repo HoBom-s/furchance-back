@@ -24,7 +24,7 @@ public class UserController {
     @GetMapping(Url.ID_PARAM)
     public ResponseEntity<ApiResponse<UserResponseDto>> getOneUser(@PathVariable("id") Long id) {
 
-        return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: get one user", userService.getOneUser(id)));
+        return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: get one user", userService.getOneUserById(id)));
     }
 
     @PatchMapping(Url.ID_PARAM)

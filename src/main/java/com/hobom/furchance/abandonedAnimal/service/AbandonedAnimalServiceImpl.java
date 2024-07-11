@@ -24,7 +24,7 @@ public class AbandonedAnimalServiceImpl implements AbandonedAnimalService {
     private final AbandonedAnimalSpecification abandonedAnimalSpecification;
 
     @Override
-    public AbandonedAnimalResponseDto getOneAbandonedAnimal(Long id) {
+    public AbandonedAnimalResponseDto getOneAbandonedAnimalById(Long id) {
 
         AbandonedAnimal foundAbandonedAnimal = abandonedAnimalRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 

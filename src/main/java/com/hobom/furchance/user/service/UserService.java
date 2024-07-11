@@ -5,7 +5,7 @@ import com.hobom.furchance.user.dto.UserUpdateRequestDto;
 
 public interface UserService {
 
-    UserResponseDto getOneUser(Long id);
+    UserResponseDto getOneUserById(Long id);
 
     UserResponseDto updateOneUser(Long id, UserUpdateRequestDto userUpdateRequestDto);
 

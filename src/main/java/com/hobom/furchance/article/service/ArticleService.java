@@ -7,7 +7,7 @@ import com.hobom.furchance.article.dto.ArticleUpdateRequestDto;
 
 public interface ArticleService {
 
-    ArticleResponseDto getOneArticle(Long id);
+    ArticleResponseDto getOneArticleById(Long id);
 
     ArticleResponseDto[] getArticlePagination(ArticlePaginationRequestParamDto paginationRequestParamDto);
 

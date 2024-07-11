@@ -23,9 +23,11 @@ public class ArticleServiceImpl implements ArticleService {
     private final UserRepository userRepository;
 
     @Override
-    public ArticleResponseDto getOneArticle(Long id) {
+    public ArticleResponseDto getOneArticleById(Long id) {
 
-        return null;
+        Article foundArticle = articleRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+
+        return ArticleResponseDto.from(foundArticle);
     }
 
     @Override

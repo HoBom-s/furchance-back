@@ -22,7 +22,7 @@ public class AbandonedAnimalController {
     @GetMapping(Url.ID_PARAM)
     public ResponseEntity<ApiResponse<AbandonedAnimalResponseDto>> getOneAbandonedAnimal(@PathVariable("id") final Long id) {
 
-        return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: get one abandoned animal by id", abandonedAnimalService.getOneAbandonedAnimal(id)));
+        return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: get one abandoned animal by id", abandonedAnimalService.getOneAbandonedAnimalById(id)));
     }
 
     @GetMapping(Url.AbandonedAnimal.PAGINATION)

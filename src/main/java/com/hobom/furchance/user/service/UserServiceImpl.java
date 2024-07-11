@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     private final UserValidationService userValidationService;
 
     @Override
-    public UserResponseDto getOneUser(Long id) {
+    public UserResponseDto getOneUserById(Long id) {
 
         return UserResponseDto.from(userValidationService.findOneUserById(id));
     }
