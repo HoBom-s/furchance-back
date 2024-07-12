@@ -22,7 +22,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         String method = request.getMethod();
 
-        if(!HttpMethod.PATCH.matches(method) && !HttpMethod.DELETE.matches(method)){
+        if(HttpMethod.GET.matches(method)){
             return true;
         }
 

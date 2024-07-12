@@ -11,8 +11,11 @@ import java.util.List;
 
 @Component
 public class AbandonedAnimalSpecification {
+
     public Specification<AbandonedAnimal> withFilters(AbandonedAnimalPaginationRequestParamDto abandonedAnimalPaginationRequestParamDto) {
+
         return (root, query, criteriaBuilder) -> {
+
             List<Predicate> predicates = new ArrayList<>();
 
             if (abandonedAnimalPaginationRequestParamDto.getSearchStartDate() != null && !abandonedAnimalPaginationRequestParamDto.getSearchStartDate().isEmpty()) {

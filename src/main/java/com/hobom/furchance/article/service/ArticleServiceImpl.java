@@ -10,10 +10,13 @@ import com.hobom.furchance.user.entity.User;
 import com.hobom.furchance.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.management.RuntimeErrorException;
 import java.util.Objects;
 
 @Service
@@ -34,8 +37,19 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleResponseDto[] getArticlePagination(ArticlePaginationRequestParamDto articlePaginationRequestParamDto) {
-        return new ArticleResponseDto[0];
+    public Page<ArticleResponseDto> getArticlePagination(ArticlePaginationRequestParamDto articlePaginationRequestParamDto) {
+
+        int pageNum = articlePaginationRequestParamDto.getPageNum() - 1;
+        int perPage = articlePaginationRequestParamDto.getPerPage();
+        Sort.Direction sortDirection = Sort.Direction.fromString(String.valueOf(articlePaginationRequestParamDto.getSort()));
+
+        System.out.println("pageNum = " + pageNum);
+        System.out.println("perPage = " + perPage);
+        System.out.println("sortDirection = " + sortDirection);
+
+        Pageable pageable = PageRequest.of(pageNum, perPage, sortDirection, "createdAt");
+
+        return articleRepository.findAll(pageable).map(ArticleResponseDto::from);
     }
 
     @Override
@@ -85,8 +99,6 @@ public class ArticleServiceImpl implements ArticleService {
             throw new IllegalArgumentException("Failed: only the writer can change the article");
         }
     }
-
-
 
 
 }

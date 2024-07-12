@@ -25,7 +25,7 @@ public class AbandonedAnimalController {
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: get one abandoned animal by id", abandonedAnimalService.getOneAbandonedAnimalById(id)));
     }
 
-    @GetMapping(Url.AbandonedAnimal.PAGINATION)
+    @GetMapping(Url.PAGINATION)
     public ResponseEntity<ApiResponse<Page<AbandonedAnimalResponseDto>>> getAbandonedAnimalPagination(@ModelAttribute("paginationRequestParamDto") @Valid AbandonedAnimalPaginationRequestParamDto abandonedAnimalPaginationRequestParamDto) {
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: abandoned animals pagination", abandonedAnimalService.getAbandonedAnimalPagination(abandonedAnimalPaginationRequestParamDto)));

@@ -4,12 +4,13 @@ import com.hobom.furchance.article.dto.ArticleCreateRequestDto;
 import com.hobom.furchance.article.dto.ArticlePaginationRequestParamDto;
 import com.hobom.furchance.article.dto.ArticleResponseDto;
 import com.hobom.furchance.article.dto.ArticleUpdateRequestDto;
+import org.springframework.data.domain.Page;
 
 public interface ArticleService {
 
     ArticleResponseDto getOneArticleById(Long id);
 
-    ArticleResponseDto[] getArticlePagination(ArticlePaginationRequestParamDto paginationRequestParamDto);
+    Page<ArticleResponseDto> getArticlePagination(ArticlePaginationRequestParamDto articlePaginationRequestParamDto);
 
     ArticleResponseDto createOneArticle(Long userId, ArticleCreateRequestDto articleCreateRequestDto);
 

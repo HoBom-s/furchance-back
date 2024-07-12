@@ -1,5 +1,6 @@
 package com.hobom.furchance.abandonedAnimal.dto;
 
+import com.hobom.furchance.dto.PaginationRequestParamDto;
 import com.hobom.furchance.dto.Sorting;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -7,13 +8,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AbandonedAnimalPaginationRequestParamDto {
+public class AbandonedAnimalPaginationRequestParamDto extends PaginationRequestParamDto {
 
-    @NotNull
-    private int pageNum;
-
-    @NotNull
-    private int perPage;
+    public AbandonedAnimalPaginationRequestParamDto() {
+        super();
+    }
 
     private Sorting sort = Sorting.ASC;
 

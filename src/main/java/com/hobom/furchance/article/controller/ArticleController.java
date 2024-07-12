@@ -1,6 +1,6 @@
 package com.hobom.furchance.article.controller;
 
-import com.hobom.furchance.auth.constant.AuthConstant;
+import com.hobom.furchance.article.dto.ArticlePaginationRequestParamDto;
 import com.hobom.furchance.article.dto.ArticleCreateRequestDto;
 import com.hobom.furchance.article.dto.ArticleResponseDto;
 import com.hobom.furchance.article.dto.ArticleUpdateRequestDto;
@@ -11,6 +11,7 @@ import com.hobom.furchance.util.CommonUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,14 @@ public class ArticleController {
     private ResponseEntity<ApiResponse<ArticleResponseDto>> getOneArticleById(@PathVariable("id") Long id) {
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: get one article by Id", articleService.getOneArticleById(id)));
+    }
+
+    @GetMapping(Url.PAGINATION)
+    private ResponseEntity<ApiResponse<Page<ArticleResponseDto>>> getArticlePagination(@ModelAttribute("paginationRequestParamDto") @Valid ArticlePaginationRequestParamDto articlePaginationRequestParamDto) {
+
+        //@Todo: exclude deleted articles
+
+        return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: article pagination", articleService.getArticlePagination(articlePaginationRequestParamDto)));
     }
 
     @PostMapping

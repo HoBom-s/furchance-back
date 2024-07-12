@@ -1,19 +1,19 @@
 package com.hobom.furchance.article.dto;
 
+import com.hobom.furchance.dto.PaginationRequestParamDto;
 import com.hobom.furchance.dto.Sorting;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ArticlePaginationRequestParamDto {
+public class ArticlePaginationRequestParamDto extends PaginationRequestParamDto {
 
-    @NotNull
-    private int pageNum;
+    public ArticlePaginationRequestParamDto() {
+        super();
+    }
 
-    @NotNull
-    private int perPage;
+    private Sorting sort = Sorting.DESC;
 
-    private Sorting sort = Sorting.ASC;
+    private String sortField = "createdAt";
 }

@@ -37,11 +37,11 @@ public class AbandonedAnimalServiceImpl implements AbandonedAnimalService {
 
         int pageNum = abandonedAnimalPaginationRequestParamDto.getPageNum() - 1;
         int perPage = abandonedAnimalPaginationRequestParamDto.getPerPage();
-        String sortField = abandonedAnimalPaginationRequestParamDto.getSortField();
         Sort.Direction sortDirection = Sort.Direction.fromString(String.valueOf(abandonedAnimalPaginationRequestParamDto.getSort()));
+        String sortField = abandonedAnimalPaginationRequestParamDto.getSortField();
 
         Pageable pageable = PageRequest.of(pageNum, perPage, sortDirection, sortField);
 
-        return abandonedAnimalRepository.findAll(abandonedAnimalSpecification.withFilters(abandonedAnimalPaginationRequestParamDto),pageable).map(AbandonedAnimalResponseDto::from);
+        return abandonedAnimalRepository.findAll(abandonedAnimalSpecification.withFilters(abandonedAnimalPaginationRequestParamDto), pageable).map(AbandonedAnimalResponseDto::from);
     }
 }

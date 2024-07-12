@@ -9,7 +9,9 @@ public class CommonUtils {
 
     public static Long getVerifiedUserId(HttpServletRequest request) {
 
-        return (Long) request.getAttribute(AuthConstant.VERIFIED_USER_ID);
+        Object attribute = request.getAttribute(AuthConstant.VERIFIED_USER_ID);
+        System.out.println("attribute = " + attribute);
+        return (Long) attribute;
     }
 
     public static void validateUser(Long verifiedUserId, Long givenUserId) {
