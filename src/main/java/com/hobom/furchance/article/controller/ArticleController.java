@@ -1,5 +1,6 @@
 package com.hobom.furchance.article.controller;
 
+import com.hobom.furchance.auth.constant.AuthConstant;
 import com.hobom.furchance.article.dto.ArticleCreateRequestDto;
 import com.hobom.furchance.article.dto.ArticleResponseDto;
 import com.hobom.furchance.article.dto.ArticleUpdateRequestDto;
@@ -21,15 +22,15 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @GetMapping(Url.ID_PARAM)
-    private ResponseEntity<ApiResponse<ArticleResponseDto>> getOneArticleById(@PathVariable("id") Long id){
+    private ResponseEntity<ApiResponse<ArticleResponseDto>> getOneArticleById(@PathVariable("id") Long id) {
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: get one article by Id", articleService.getOneArticleById(id)));
     }
 
     @PostMapping
-    private ResponseEntity<ApiResponse<ArticleResponseDto>> createArticle(@RequestBody @Valid ArticleCreateRequestDto articleCreateRequestDto, HttpServletRequest request) {
+    private ResponseEntity<ApiResponse<ArticleResponseDto>> createOneArticle(@RequestBody @Valid ArticleCreateRequestDto articleCreateRequestDto, HttpServletRequest request) {
 
-        Long userId = (Long) request.getAttribute("verifiedUserId");
+        Long userId = getVerifiedUserId(request);
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: create one article", articleService.createOneArticle(userId, articleCreateRequestDto)));
     }
@@ -37,8 +38,21 @@ public class ArticleController {
     @PatchMapping(Url.ID_PARAM)
     private ResponseEntity<ApiResponse<ArticleResponseDto>> updateOneArticle(@PathVariable("id") Long id, @RequestBody ArticleUpdateRequestDto articleUpdateRequestDto, HttpServletRequest request) {
 
-        Long userId = (Long) request.getAttribute("verifiedUserId");
+        Long userId = getVerifiedUserId(request);
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: update one article", articleService.updateOneArticle(id, userId, articleUpdateRequestDto)));
+    }
+
+    @DeleteMapping(Url.ID_PARAM)
+    private ResponseEntity<ApiResponse<ArticleResponseDto>> deleteOneArticle(@PathVariable("id") Long id, HttpServletRequest request) {
+
+        Long userId = getVerifiedUserId(request);
+
+        return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: remove one article", articleService.removeOneArticle(id, userId)));
+    }
+
+    private Long getVerifiedUserId(HttpServletRequest request) {
+
+        return (Long) request.getAttribute(AuthConstant.VERIFIED_USER_ID);
     }
 }

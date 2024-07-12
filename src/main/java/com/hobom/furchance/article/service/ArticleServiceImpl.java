@@ -53,22 +53,40 @@ public class ArticleServiceImpl implements ArticleService {
 
         Article foundArticle = articleRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 
-        Long writerId = foundArticle.getUser().getId();
-
-        if(!Objects.equals(writerId, userId)){
-            throw new RuntimeException("Failed: only the writer can update the article");
-        }
+        validateArticleWriter(userId, foundArticle);
 
         foundArticle.setTitle(articleUpdateRequestDto.getTitle());
         foundArticle.setContents(articleUpdateRequestDto.getContents());
 
-        articleRepository.save(foundArticle);
+        Article updatedArticle = articleRepository.save(foundArticle);
 
-        return ArticleResponseDto.from(foundArticle);
+        return ArticleResponseDto.from(updatedArticle);
     }
 
     @Override
-    public ArticleResponseDto removeOneArticle(Long id) {
-        return null;
+    public ArticleResponseDto removeOneArticle(Long id, Long userId) {
+
+        Article foundArticle = articleRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+
+        validateArticleWriter(userId, foundArticle);
+
+        foundArticle.setDeleted(true);
+
+        Article removedArticle = articleRepository.save(foundArticle);
+
+        return ArticleResponseDto.from(removedArticle);
     }
+
+    private void validateArticleWriter(Long userId, Article foundArticle) {
+
+        Long writerId = foundArticle.getUser().getId();
+
+        if (!Objects.equals(writerId, userId)) {
+            throw new IllegalArgumentException("Failed: only the writer can change the article");
+        }
+    }
+
+
+
+
 }

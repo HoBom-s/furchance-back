@@ -1,5 +1,6 @@
 package com.hobom.furchance.interceptor;
 
+import com.hobom.furchance.auth.constant.AuthConstant;
 import com.hobom.furchance.auth.util.JwtUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -7,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -32,7 +32,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         Long extractedUserId = jwtUtils.extractUserId(accessToken);
-        request.setAttribute("verifiedUserId", extractedUserId);
+        request.setAttribute(AuthConstant.VERIFIED_USER_ID, extractedUserId);
 
         return true;
     }

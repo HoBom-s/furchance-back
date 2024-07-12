@@ -1,5 +1,6 @@
 package com.hobom.furchance.user.controller;
 
+import com.hobom.furchance.auth.constant.AuthConstant;
 import com.hobom.furchance.dto.ApiResponse;
 import com.hobom.furchance.url.Url;
 import com.hobom.furchance.user.dto.UserResponseDto;
@@ -30,7 +31,7 @@ public class UserController {
     @PatchMapping(Url.ID_PARAM)
     public ResponseEntity<ApiResponse<UserResponseDto>> updateOneUser(@PathVariable("id") Long id, @RequestBody @Valid UserUpdateRequestDto userUpdateRequestDto, HttpServletRequest request) {
 
-        Long verifiedUserId = (Long) request.getAttribute("verifiedUserId");
+        Long verifiedUserId = (Long) request.getAttribute(AuthConstant.VERIFIED_USER_ID);
 
         if (!Objects.equals(verifiedUserId, id)) {
             throw new RuntimeException("Failed: only the account owner is permitted to update");

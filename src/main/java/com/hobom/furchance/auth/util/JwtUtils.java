@@ -124,7 +124,7 @@ public class JwtUtils {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
-                .parseClaimsJws(token) // @WIP
+                .parseClaimsJws(token)
                 .getBody();
     }
 }

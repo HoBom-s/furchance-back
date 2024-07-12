@@ -15,5 +15,5 @@ public interface ArticleService {
 
     ArticleResponseDto updateOneArticle(Long id, Long userId, ArticleUpdateRequestDto articleUpdateRequestDto);
 
-    ArticleResponseDto removeOneArticle(Long id);
+    ArticleResponseDto removeOneArticle(Long id, Long userId);
 }
