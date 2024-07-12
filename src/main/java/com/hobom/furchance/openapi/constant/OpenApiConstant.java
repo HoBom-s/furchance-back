@@ -1,6 +1,6 @@
 package com.hobom.furchance.openapi.constant;
 
-import com.hobom.furchance.abandonedAnimal.util.Util;
+import com.hobom.furchance.abandonedAnimal.util.AbandonedAnimalUtils;
 
 public class OpenApiConstant {
 
@@ -11,7 +11,7 @@ public class OpenApiConstant {
 
     public static final String SEARCH_BEGIN_DATE = "20240620";
 
-    public static final String SEARCH_END_DATE = Util.getTodayDate();
+    public static final String SEARCH_END_DATE = AbandonedAnimalUtils.getTodayDate();
 
     public static final String SEOUL_CODE = "6110000";
 

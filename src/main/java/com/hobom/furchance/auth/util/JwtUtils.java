@@ -95,15 +95,20 @@ public class JwtUtils {
 
         User foundUser = userRepository.findById(extractUserId(accessToken)).orElseThrow(EntityNotFoundException::new);
 
-        String refreshToken = redisService.getRefreshToken(foundUser);
-
-        boolean isRefreshTokenValid = isTokenValid(refreshToken);
+        boolean isRefreshTokenValid = isRefreshTokenValid(accessToken, foundUser);
 
         if (isRefreshTokenValid) {
             return generateToken(foundUser, "access");
         }
 
         throw new RuntimeException("Token expired: Both Access & Refresh token expired. Please log in again.");
+    }
+
+    private boolean isRefreshTokenValid(String accessToken, User foundUser) {
+
+        String refreshToken = redisService.getRefreshToken(foundUser);
+
+        return isTokenValid(refreshToken);
     }
 
     public boolean isTokenValid(String token) {

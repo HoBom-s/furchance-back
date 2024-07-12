@@ -7,6 +7,7 @@ import com.hobom.furchance.article.dto.ArticleUpdateRequestDto;
 import com.hobom.furchance.article.service.ArticleService;
 import com.hobom.furchance.dto.ApiResponse;
 import com.hobom.furchance.url.Url;
+import com.hobom.furchance.util.CommonUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class ArticleController {
     @PostMapping
     private ResponseEntity<ApiResponse<ArticleResponseDto>> createOneArticle(@RequestBody @Valid ArticleCreateRequestDto articleCreateRequestDto, HttpServletRequest request) {
 
-        Long userId = getVerifiedUserId(request);
+        Long userId = CommonUtils.getVerifiedUserId(request);
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: create one article", articleService.createOneArticle(userId, articleCreateRequestDto)));
     }
@@ -38,7 +39,7 @@ public class ArticleController {
     @PatchMapping(Url.ID_PARAM)
     private ResponseEntity<ApiResponse<ArticleResponseDto>> updateOneArticle(@PathVariable("id") Long id, @RequestBody ArticleUpdateRequestDto articleUpdateRequestDto, HttpServletRequest request) {
 
-        Long userId = getVerifiedUserId(request);
+        Long userId = CommonUtils.getVerifiedUserId(request);
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: update one article", articleService.updateOneArticle(id, userId, articleUpdateRequestDto)));
     }
@@ -46,13 +47,8 @@ public class ArticleController {
     @DeleteMapping(Url.ID_PARAM)
     private ResponseEntity<ApiResponse<ArticleResponseDto>> deleteOneArticle(@PathVariable("id") Long id, HttpServletRequest request) {
 
-        Long userId = getVerifiedUserId(request);
+        Long userId = CommonUtils.getVerifiedUserId(request);
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: remove one article", articleService.removeOneArticle(id, userId)));
-    }
-
-    private Long getVerifiedUserId(HttpServletRequest request) {
-
-        return (Long) request.getAttribute(AuthConstant.VERIFIED_USER_ID);
     }
 }

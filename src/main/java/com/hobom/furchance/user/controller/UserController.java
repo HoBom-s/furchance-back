@@ -6,6 +6,7 @@ import com.hobom.furchance.url.Url;
 import com.hobom.furchance.user.dto.UserResponseDto;
 import com.hobom.furchance.user.dto.UserUpdateRequestDto;
 import com.hobom.furchance.user.service.UserService;
+import com.hobom.furchance.util.CommonUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,17 +32,17 @@ public class UserController {
     @PatchMapping(Url.ID_PARAM)
     public ResponseEntity<ApiResponse<UserResponseDto>> updateOneUser(@PathVariable("id") Long id, @RequestBody @Valid UserUpdateRequestDto userUpdateRequestDto, HttpServletRequest request) {
 
-        Long verifiedUserId = (Long) request.getAttribute(AuthConstant.VERIFIED_USER_ID);
-
-        if (!Objects.equals(verifiedUserId, id)) {
-            throw new RuntimeException("Failed: only the account owner is permitted to update");
-        }
+        Long verifiedUserId = CommonUtils.getVerifiedUserId(request);
+        CommonUtils.validateUser(verifiedUserId, id);
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: update one user", userService.updateOneUser(id, userUpdateRequestDto)));
     }
 
     @DeleteMapping(Url.ID_PARAM)
-    public ResponseEntity<ApiResponse<UserResponseDto>> removeOneUser(@PathVariable("id") Long id) {
+    public ResponseEntity<ApiResponse<UserResponseDto>> removeOneUser(@PathVariable("id") Long id, HttpServletRequest request) {
+
+        Long verifiedUserId = CommonUtils.getVerifiedUserId(request);
+        CommonUtils.validateUser(verifiedUserId, id);
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: update one user", userService.removeOneUser(id)));
     }
