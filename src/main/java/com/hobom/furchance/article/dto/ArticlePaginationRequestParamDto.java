@@ -9,10 +9,6 @@ import lombok.Setter;
 @Setter
 public class ArticlePaginationRequestParamDto extends PaginationRequestParamDto {
 
-    public ArticlePaginationRequestParamDto() {
-        super();
-    }
-
     private Sorting sort = Sorting.DESC;
 
     private String sortField = "createdAt";

@@ -43,10 +43,6 @@ public class ArticleServiceImpl implements ArticleService {
         int perPage = articlePaginationRequestParamDto.getPerPage();
         Sort.Direction sortDirection = Sort.Direction.fromString(String.valueOf(articlePaginationRequestParamDto.getSort()));
 
-        System.out.println("pageNum = " + pageNum);
-        System.out.println("perPage = " + perPage);
-        System.out.println("sortDirection = " + sortDirection);
-
         Pageable pageable = PageRequest.of(pageNum, perPage, sortDirection, "createdAt");
 
         return articleRepository.findAll(pageable).map(ArticleResponseDto::from);

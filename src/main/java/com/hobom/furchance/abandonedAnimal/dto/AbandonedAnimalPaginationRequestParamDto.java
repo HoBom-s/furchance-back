@@ -10,10 +10,6 @@ import lombok.Setter;
 @Setter
 public class AbandonedAnimalPaginationRequestParamDto extends PaginationRequestParamDto {
 
-    public AbandonedAnimalPaginationRequestParamDto() {
-        super();
-    }
-
     private Sorting sort = Sorting.ASC;
 
     private String sortField = "noticeEdt";
