@@ -81,6 +81,10 @@ public class ArticleServiceImpl implements ArticleService {
 
         validateArticleWriter(userId, foundArticle);
 
+        if(foundArticle.isDeleted()) {
+            throw new CustomException(HttpStatus.BAD_REQUEST, ErrorMessage.ALREADY_DELETED + id);
+        }
+
         foundArticle.setDeleted(true);
 
         Article removedArticle = articleRepository.save(foundArticle);
