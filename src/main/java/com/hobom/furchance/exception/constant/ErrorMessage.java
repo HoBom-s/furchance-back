@@ -10,6 +10,8 @@ public class ErrorMessage {
 
     public static final String ALREADY_EXISTS = "Requested resource already exists";
 
+    public static final String ILLEGAL_ARGS = "Invalid parameters: ";
+
     public static final String JSON_ERROR = "Error while parsing String to Json: ";
 
     public static final String SCHEDULE_ERROR = "Error during Quartz Job: ";
@@ -19,6 +21,8 @@ public class ErrorMessage {
     public static final String WRONG_PASSWORD = "Invalid password";
 
     // Token
+    public static final String TOKEN_INVALID = "Invalid token";
+
     public static final String TOKEN_EXPIRED = "Token expired: Both Access & Refresh token expired. Please log in again";
 
     public static final String TOKEN_FLAG_ERROR = "Valid token flag needed";
