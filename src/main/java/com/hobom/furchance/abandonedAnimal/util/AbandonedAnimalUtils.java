@@ -1,4 +1,4 @@
-package com.hobom.furchance.util;
+package com.hobom.furchance.abandonedAnimal.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-public class Util {
+public class AbandonedAnimalUtils {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
 
@@ -20,11 +20,10 @@ public class Util {
 
     public static class CustomParser {
 
+        // @Todo: validation for random secretKey error
         public static JsonNode parseStringToJson(String stringJson) throws JsonProcessingException {
             ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             return objectMapper.readTree(stringJson);
         }
-
     }
-
 }

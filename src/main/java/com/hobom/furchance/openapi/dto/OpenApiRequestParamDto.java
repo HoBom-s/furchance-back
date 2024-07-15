@@ -1,6 +1,6 @@
 package com.hobom.furchance.openapi.dto;
 
-import com.hobom.furchance.constant.OpenApiConstant;
+import com.hobom.furchance.openapi.constant.OpenApiConstant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

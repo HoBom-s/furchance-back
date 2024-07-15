@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "ABANDONED_ANIMAL")
+@Table(name = "abandoned_animal")
 @Getter
 @Setter
 public class AbandonedAnimal {
@@ -45,7 +45,7 @@ public class AbandonedAnimal {
     @Column(name = "notice_start_date")
     private String noticeSdt;
 
-    @Column(name = "notice_edit_date")
+    @Column(name = "notice_end_date")
     private String noticeEdt;
 
     @Column(name = "big_profile_img")

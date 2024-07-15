@@ -1,6 +1,6 @@
 package com.hobom.furchance.openapi;
 
-import com.hobom.furchance.constant.OpenApiConstant;
+import com.hobom.furchance.openapi.constant.OpenApiConstant;
 import com.hobom.furchance.openapi.dto.OpenApiRequestParamDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
@@ -17,5 +17,4 @@ public interface OpenApiClient {
     String getOpenApiAbandonedAnimals (
            @SpringQueryMap OpenApiRequestParamDto openApiRequestParamDto
     );
-
 }

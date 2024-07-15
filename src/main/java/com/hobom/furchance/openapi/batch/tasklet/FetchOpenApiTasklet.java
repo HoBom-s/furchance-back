@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.hobom.furchance.util.Util.CustomParser.parseStringToJson;
+import static com.hobom.furchance.abandonedAnimal.util.AbandonedAnimalUtils.CustomParser.parseStringToJson;
 
 @Component
 @StepScope
@@ -26,7 +26,7 @@ public class FetchOpenApiTasklet implements Tasklet {
 
     public static List<JsonNode> tempStorage = new ArrayList<>();
 
-    @Value("${openapi.authKey.d}")
+    @Value("${openapi.authKey-d}")
     private String serviceKey;
 
     @Override
