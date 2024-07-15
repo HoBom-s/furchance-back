@@ -28,7 +28,7 @@ public class BeforeFetchTasklet implements Tasklet {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
 
         abandonedAnimalBackUpRepository.deleteAllInBatch();
 

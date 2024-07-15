@@ -1,16 +1,18 @@
 package com.hobom.furchance.auth.util;
 
 import com.hobom.furchance.auth.service.RedisService;
+import com.hobom.furchance.exception.CustomException;
+import com.hobom.furchance.exception.constant.ErrorMessage;
 import com.hobom.furchance.user.entity.User;
 import com.hobom.furchance.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,7 +79,7 @@ public class JwtUtils {
             return createToken(user.getNickname(), refreshTokenExpirationTime, userIdClaim);
         }
 
-        throw new RuntimeException("Valid tokenFlag needed");
+        throw new CustomException(HttpStatus.BAD_REQUEST, ErrorMessage.TOKEN_FLAG_ERROR);
     }
 
 
@@ -93,7 +95,9 @@ public class JwtUtils {
 
     public String regenerateAccessToken(String accessToken) {
 
-        User foundUser = userRepository.findById(extractUserId(accessToken)).orElseThrow(EntityNotFoundException::new);
+        Long userId = extractUserId(accessToken);
+
+        User foundUser = userRepository.findById(userId).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, ErrorMessage.NOT_FOUND + userId));
 
         boolean isRefreshTokenValid = isRefreshTokenValid(accessToken, foundUser);
 
@@ -101,7 +105,7 @@ public class JwtUtils {
             return generateToken(foundUser, "access");
         }
 
-        throw new RuntimeException("Token expired: Both Access & Refresh token expired. Please log in again.");
+        throw new CustomException(HttpStatus.BAD_REQUEST, ErrorMessage.TOKEN_EXPIRED);
     }
 
     private boolean isRefreshTokenValid(String accessToken, User foundUser) {

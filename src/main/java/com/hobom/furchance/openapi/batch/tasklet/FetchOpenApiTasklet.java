@@ -30,7 +30,7 @@ public class FetchOpenApiTasklet implements Tasklet {
     private String serviceKey;
 
     @Override
-    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
 
         OpenApiRequestParamDto openApiRequestParamDto = new OpenApiRequestParamDto();
         openApiRequestParamDto.setServiceKey(serviceKey);

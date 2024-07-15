@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public class ApiResponse<T> {
 
-    // @Todo statusCode, message Enum처리
     private int status;
 
     private String message;
@@ -18,10 +17,12 @@ public class ApiResponse<T> {
     private T data;
 
     public static <T> ApiResponse<T> of(HttpStatus status, String message, T data) {
+
         return new ApiResponse<>(status.value(), message, data);
     }
 
     public static <T> ApiResponse<T> of(HttpStatus status, String message) {
+
         return new ApiResponse<>(status.value(), message, null);
     }
 }

@@ -30,5 +30,4 @@ public class AbandonedAnimalController {
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: abandoned animals pagination", abandonedAnimalService.getAbandonedAnimalPagination(abandonedAnimalPaginationRequestParamDto)));
     }
-
 }

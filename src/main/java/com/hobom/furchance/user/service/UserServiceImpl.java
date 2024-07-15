@@ -1,11 +1,14 @@
 package com.hobom.furchance.user.service;
 
+import com.hobom.furchance.exception.CustomException;
+import com.hobom.furchance.exception.constant.ErrorMessage;
 import com.hobom.furchance.user.dto.UserResponseDto;
 import com.hobom.furchance.user.dto.UserUpdateRequestDto;
 import com.hobom.furchance.user.entity.User;
 import com.hobom.furchance.user.repository.UserRepository;
 import com.hobom.furchance.auth.util.PasswordUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,9 +49,8 @@ public class UserServiceImpl implements UserService {
 
         User foundUser = userValidationService.findOneUserById(id);
 
-        if(foundUser.isDeleted()) {
-            // @Todo customize Exception
-            throw new RuntimeException("Failed: Already deleted user");
+        if (foundUser.isDeleted()) {
+            throw new CustomException(HttpStatus.NOT_FOUND, ErrorMessage.ALREADY_DELETED + id);
         }
 
         foundUser.setDeleted(true);

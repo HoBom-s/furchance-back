@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public interface AuthService{
 
-    UserResponseDto signUp(SignUpRequestDto signUpRequestDto) throws AlreadyExistsException;
+    UserResponseDto signUp(SignUpRequestDto signUpRequestDto);
 
     UserLoginResponseDto logIn(UserLogInRequestDto userLogInRequestDto, HttpServletResponse httpServletResponse);
 }

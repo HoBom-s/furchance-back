@@ -23,7 +23,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping(Url.Auth.SIGNUP)
-    public ResponseEntity<ApiResponse<UserResponseDto>> signUp(@RequestBody @Valid SignUpRequestDto userCreateRequestDto) throws AlreadyExistsException {
+    public ResponseEntity<ApiResponse<UserResponseDto>> signUp(@RequestBody @Valid SignUpRequestDto userCreateRequestDto) {
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: sign up one user", authService.signUp(userCreateRequestDto)));
     }
