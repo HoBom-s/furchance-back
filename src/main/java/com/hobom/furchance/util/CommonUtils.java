@@ -14,6 +14,10 @@ public class CommonUtils {
 
         Object attribute = request.getAttribute(AuthConstant.VERIFIED_USER_ID);
 
+        if(attribute == null) {
+            throw new CustomException(HttpStatus.BAD_REQUEST, ErrorMessage.PERMISSION);
+        }
+
         return (Long) attribute;
     }
 

@@ -30,9 +30,7 @@ public class ArticleController {
     }
 
     @GetMapping(Url.PAGINATION)
-    private ResponseEntity<ApiResponse<Page<ArticleResponseDto>>> getArticlePagination(@ModelAttribute("paginationRequestParamDto") @Valid ArticlePaginationRequestParamDto articlePaginationRequestParamDto) {
-
-        //@Todo: exclude deleted articles
+    private ResponseEntity<ApiResponse<Page<ArticleResponseDto>>> getArticlePagination(@ModelAttribute @Valid ArticlePaginationRequestParamDto articlePaginationRequestParamDto) {
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: article pagination", articleService.getArticlePagination(articlePaginationRequestParamDto)));
     }

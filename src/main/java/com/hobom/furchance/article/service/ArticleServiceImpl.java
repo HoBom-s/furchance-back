@@ -10,6 +10,7 @@ import com.hobom.furchance.exception.CustomException;
 import com.hobom.furchance.exception.constant.ErrorMessage;
 import com.hobom.furchance.user.entity.User;
 import com.hobom.furchance.user.repository.UserRepository;
+import com.hobom.furchance.util.CommonUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,8 +19,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Objects;
 
 @Service
 @Transactional
@@ -45,9 +44,9 @@ public class ArticleServiceImpl implements ArticleService {
         int perPage = articlePaginationRequestParamDto.getPerPage();
         Sort.Direction sortDirection = Sort.Direction.fromString(String.valueOf(articlePaginationRequestParamDto.getSort()));
 
-        Pageable pageable = PageRequest.of(pageNum, perPage, sortDirection, "createdAt");
+        Pageable pageable = PageRequest.of(pageNum, perPage, sortDirection, articlePaginationRequestParamDto.getSortField());
 
-        return articleRepository.findAll(pageable).map(ArticleResponseDto::from);
+        return articleRepository.findAllByDeletedFalse(pageable).map(ArticleResponseDto::from);
     }
 
     @Override
@@ -93,10 +92,6 @@ public class ArticleServiceImpl implements ArticleService {
 
         Long writerId = foundArticle.getUser().getId();
 
-        if (!Objects.equals(writerId, userId)) {
-            throw new CustomException(HttpStatus.UNAUTHORIZED, ErrorMessage.PERMISSION);
-        }
+        CommonUtils.validateUser(userId, writerId);
     }
-
-
 }
