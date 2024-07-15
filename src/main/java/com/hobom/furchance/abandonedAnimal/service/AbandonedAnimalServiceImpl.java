@@ -5,12 +5,14 @@ import com.hobom.furchance.abandonedAnimal.dto.AbandonedAnimalPaginationRequestP
 import com.hobom.furchance.abandonedAnimal.entity.AbandonedAnimal;
 import com.hobom.furchance.abandonedAnimal.repository.AbandonedAnimalRepository;
 import com.hobom.furchance.abandonedAnimal.repository.spec.AbandonedAnimalSpecification;
-import jakarta.persistence.EntityNotFoundException;
+import com.hobom.furchance.exception.CustomException;
+import com.hobom.furchance.exception.constant.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,10 +28,9 @@ public class AbandonedAnimalServiceImpl implements AbandonedAnimalService {
     @Override
     public AbandonedAnimalResponseDto getOneAbandonedAnimalById(Long id) {
 
-        AbandonedAnimal foundAbandonedAnimal = abandonedAnimalRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        AbandonedAnimal foundAbandonedAnimal = abandonedAnimalRepository.findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, ErrorMessage.NOT_FOUND + id));
 
         return AbandonedAnimalResponseDto.from(foundAbandonedAnimal);
-
     }
 
     @Override

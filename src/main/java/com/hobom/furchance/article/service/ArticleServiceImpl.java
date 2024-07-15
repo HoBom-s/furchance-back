@@ -6,14 +6,16 @@ import com.hobom.furchance.article.dto.ArticleResponseDto;
 import com.hobom.furchance.article.dto.ArticleUpdateRequestDto;
 import com.hobom.furchance.article.entity.Article;
 import com.hobom.furchance.article.repository.ArticleRepository;
+import com.hobom.furchance.exception.CustomException;
+import com.hobom.furchance.exception.constant.ErrorMessage;
 import com.hobom.furchance.user.entity.User;
 import com.hobom.furchance.user.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +33,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleResponseDto getOneArticleById(Long id) {
 
-        Article foundArticle = articleRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        Article foundArticle = articleRepository.findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, ErrorMessage.NOT_FOUND + id));
 
         return ArticleResponseDto.from(foundArticle);
     }
@@ -51,7 +53,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleResponseDto createOneArticle(Long userId, ArticleCreateRequestDto articleCreateRequestDto) {
 
-        User writer = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+        User writer = userRepository.findById(userId).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, ErrorMessage.NOT_FOUND + userId));
 
         Article createdArticle = articleRepository.save(new Article(articleCreateRequestDto.getTitle(), articleCreateRequestDto.getContents(), writer));
 
@@ -61,7 +63,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleResponseDto updateOneArticle(Long id, Long userId, ArticleUpdateRequestDto articleUpdateRequestDto) {
 
-        Article foundArticle = articleRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        Article foundArticle = articleRepository.findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, ErrorMessage.NOT_FOUND + id));
 
         validateArticleWriter(userId, foundArticle);
 
@@ -76,7 +78,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleResponseDto removeOneArticle(Long id, Long userId) {
 
-        Article foundArticle = articleRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        Article foundArticle = articleRepository.findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, ErrorMessage.NOT_FOUND + id));
 
         validateArticleWriter(userId, foundArticle);
 
@@ -92,7 +94,7 @@ public class ArticleServiceImpl implements ArticleService {
         Long writerId = foundArticle.getUser().getId();
 
         if (!Objects.equals(writerId, userId)) {
-            throw new IllegalArgumentException("Failed: only the writer can change the article");
+            throw new CustomException(HttpStatus.UNAUTHORIZED, ErrorMessage.PERMISSION);
         }
     }
 

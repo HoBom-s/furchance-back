@@ -18,10 +18,12 @@ public class ApiResponse<T> {
     private T data;
 
     public static <T> ApiResponse<T> of(HttpStatus status, String message, T data) {
+
         return new ApiResponse<>(status.value(), message, data);
     }
 
     public static <T> ApiResponse<T> of(HttpStatus status, String message) {
+
         return new ApiResponse<>(status.value(), message, null);
     }
 }

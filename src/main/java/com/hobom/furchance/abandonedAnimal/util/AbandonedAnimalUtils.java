@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hobom.furchance.exception.CustomException;
+import com.hobom.furchance.exception.constant.ErrorMessage;
+import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -20,10 +23,14 @@ public class AbandonedAnimalUtils {
 
     public static class CustomParser {
 
-        // @Todo: validation for random secretKey error
-        public static JsonNode parseStringToJson(String stringJson) throws JsonProcessingException {
-            ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            return objectMapper.readTree(stringJson);
+        public static JsonNode parseStringToJson(String stringJson){
+            try{
+                ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+                return objectMapper.readTree(stringJson);
+            } catch (JsonProcessingException jsonProcessingException) {
+                throw new CustomException(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessage.JSON_ERROR + jsonProcessingException.getMessage());
+            }
         }
     }
 }

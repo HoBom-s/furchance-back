@@ -6,6 +6,8 @@ import com.hobom.furchance.auth.dto.UserLoginResponseDto;
 import com.hobom.furchance.auth.util.JwtUtils;
 import com.hobom.furchance.auth.util.PasswordUtils;
 import com.hobom.furchance.config.RedisConfig;
+import com.hobom.furchance.exception.CustomException;
+import com.hobom.furchance.exception.constant.ErrorMessage;
 import com.hobom.furchance.user.dto.UserResponseDto;
 import com.hobom.furchance.user.entity.User;
 import com.hobom.furchance.user.repository.UserRepository;
@@ -14,6 +16,7 @@ import com.mchange.util.AlreadyExistsException;
 import io.lettuce.core.api.async.RedisAsyncCommands;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +39,7 @@ public class AuthServiceImpl implements AuthService {
     private final RedisService redisService;
 
     @Override
-    public UserResponseDto signUp(SignUpRequestDto userCreateRequestDto) throws AlreadyExistsException {
+    public UserResponseDto signUp(SignUpRequestDto userCreateRequestDto) {
 
         userValidationService.validateNickname(userCreateRequestDto.getNickname());
 
@@ -55,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
         boolean isPasswordValid = passwordUtils.validatePassword(foundUser, userLogInRequestDto.getPassword());
 
         if(!isPasswordValid) {
-            throw new BadCredentialsException("Invalid password");
+            throw new CustomException(HttpStatus.UNAUTHORIZED, ErrorMessage.WRONG_PASSWORD);
         }
 
         String accessToken = jwtUtils.generateToken(foundUser, "access");
