@@ -2,11 +2,14 @@ package com.hobom.furchance.interceptor;
 
 import com.hobom.furchance.auth.constant.AuthConstant;
 import com.hobom.furchance.auth.util.JwtUtils;
+import com.hobom.furchance.exception.CustomException;
+import com.hobom.furchance.exception.constant.ErrorMessage;
 import feign.Request;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -29,8 +32,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return false;
+            throw new CustomException(HttpStatus.UNAUTHORIZED, ErrorMessage.TOKEN_INVALID);
         }
 
         String accessToken = authHeader.substring(7);

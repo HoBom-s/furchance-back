@@ -11,5 +11,5 @@ public class ArticlePaginationRequestParamDto extends PaginationRequestParamDto 
 
     private Sorting sort = Sorting.DESC;
 
-    private String sortField = "createdAt";
+    private final String sortField = "createdAt";
 }

@@ -12,7 +12,7 @@ public class AbandonedAnimalPaginationRequestParamDto extends PaginationRequestP
 
     private Sorting sort = Sorting.ASC;
 
-    private String sortField = "noticeEdt";
+    private final String sortField = "noticeEdt";
 
     private String searchStartDate;
 
