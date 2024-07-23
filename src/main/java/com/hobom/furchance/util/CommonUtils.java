@@ -1,6 +1,6 @@
 package com.hobom.furchance.util;
 
-import com.hobom.furchance.auth.constant.AuthConstant;
+import com.hobom.furchance.domain.auth.constant.AuthConstant;
 import com.hobom.furchance.exception.CustomException;
 import com.hobom.furchance.exception.constant.ErrorMessage;
 import jakarta.servlet.http.HttpServletRequest;

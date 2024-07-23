@@ -1,10 +1,9 @@
 package com.hobom.furchance.interceptor;
 
-import com.hobom.furchance.auth.constant.AuthConstant;
-import com.hobom.furchance.auth.util.JwtUtils;
+import com.hobom.furchance.domain.auth.constant.AuthConstant;
+import com.hobom.furchance.domain.auth.util.JwtUtils;
 import com.hobom.furchance.exception.CustomException;
 import com.hobom.furchance.exception.constant.ErrorMessage;
-import feign.Request;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
