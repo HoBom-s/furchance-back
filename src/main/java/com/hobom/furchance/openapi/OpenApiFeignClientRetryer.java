@@ -12,6 +12,7 @@ public class OpenApiFeignClientRetryer {
 
     @Bean
     Retryer.Default openFeinClientRetryer() {
+
         return new Retryer.Default(
                 OpenApiConstant.PERIOD,
                 TimeUnit.SECONDS.toMillis(OpenApiConstant.DURATION),

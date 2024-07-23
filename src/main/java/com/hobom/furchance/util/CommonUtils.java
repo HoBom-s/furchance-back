@@ -12,7 +12,7 @@ public class CommonUtils {
 
     public static Long getVerifiedUserId(HttpServletRequest request) {
 
-        Object attribute = request.getAttribute(AuthConstant.VERIFIED_USER_ID);
+        Object attribute = request.getAttribute(AuthConstant.VERIFIED_USER_ID); // getUerId()
 
         if(attribute == null) {
             throw new CustomException(HttpStatus.BAD_REQUEST, ErrorMessage.PERMISSION);

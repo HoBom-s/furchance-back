@@ -43,8 +43,13 @@ public class ArticleController {
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: create one article", articleService.createOneArticle(userId, articleCreateRequestDto)));
     }
 
+    // @TODO
     @PatchMapping(Url.ID_PARAM)
-    private ResponseEntity<ApiResponse<ArticleResponseDto>> updateOneArticle(@PathVariable("id") Long id, @RequestBody ArticleUpdateRequestDto articleUpdateRequestDto, HttpServletRequest request) {
+    private ResponseEntity<ApiResponse<ArticleResponseDto>> updateOneArticle(
+            @PathVariable("id") Long id,
+            @RequestBody ArticleUpdateRequestDto articleUpdateRequestDto,
+            HttpServletRequest request
+    ) {
 
         Long userId = CommonUtils.getVerifiedUserId(request);
 

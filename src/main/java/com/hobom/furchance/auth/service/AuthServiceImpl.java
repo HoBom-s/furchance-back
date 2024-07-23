@@ -12,17 +12,14 @@ import com.hobom.furchance.user.dto.UserResponseDto;
 import com.hobom.furchance.user.entity.User;
 import com.hobom.furchance.user.repository.UserRepository;
 import com.hobom.furchance.user.service.UserValidationService;
-import com.mchange.util.AlreadyExistsException;
-import io.lettuce.core.api.async.RedisAsyncCommands;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
+@Transactional(readOnly = true) // @TODO
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
@@ -34,23 +31,27 @@ public class AuthServiceImpl implements AuthService {
 
     private final JwtUtils jwtUtils;
 
+    // @TODO
     private final RedisConfig redisConfig;
 
     private final RedisService redisService;
 
     @Override
+    @Transactional
     public UserResponseDto signUp(SignUpRequestDto userCreateRequestDto) {
 
         userValidationService.validateNickname(userCreateRequestDto.getNickname());
 
         String encodedPassword = passwordUtils.encodePassword(userCreateRequestDto.getPassword());
 
+        // @TODO
         User createdUser = userRepository.save(User.of(userCreateRequestDto.getNickname(), encodedPassword));
 
         return UserResponseDto.from(createdUser);
     }
 
     @Override
+    @Transactional
     public UserLoginResponseDto logIn(UserLogInRequestDto userLogInRequestDto, HttpServletResponse httpServletResponse) {
 
         User foundUser = userValidationService.findOneUserByNickname(userLogInRequestDto.getNickname());

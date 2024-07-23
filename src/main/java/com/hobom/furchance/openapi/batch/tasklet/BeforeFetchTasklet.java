@@ -11,7 +11,6 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class BeforeFetchTasklet implements Tasklet {
     private final AbandonedAnimalBackUpRepository abandonedAnimalBackUpRepository;
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
 
         abandonedAnimalBackUpRepository.deleteAllInBatch();

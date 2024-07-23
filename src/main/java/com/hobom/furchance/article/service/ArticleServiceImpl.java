@@ -54,6 +54,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         User writer = userRepository.findById(userId).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, ErrorMessage.NOT_FOUND + userId));
 
+        // @TODO
         Article createdArticle = articleRepository.save(new Article(articleCreateRequestDto.getTitle(), articleCreateRequestDto.getContents(), writer));
 
         return ArticleResponseDto.from(createdArticle);
