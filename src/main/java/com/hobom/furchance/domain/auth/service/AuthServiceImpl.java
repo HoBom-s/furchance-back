@@ -31,9 +31,6 @@ public class AuthServiceImpl implements AuthService {
 
     private final JwtUtils jwtUtils;
 
-    // @TODO
-    private final RedisConfig redisConfig;
-
     private final RedisService redisService;
 
     @Override
