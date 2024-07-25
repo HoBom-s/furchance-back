@@ -28,7 +28,10 @@ public class AuthController {
     }
 
     @PostMapping(Url.Auth.LOGIN)
-    public ResponseEntity<ApiResponse<UserLoginResponseDto>> logIn(@RequestBody @Valid UserLogInRequestDto userLogInRequestDto, HttpServletResponse httpServletResponse) {
+    public ResponseEntity<ApiResponse<UserLoginResponseDto>> logIn(
+            @RequestBody @Valid UserLogInRequestDto userLogInRequestDto,
+            HttpServletResponse httpServletResponse
+    ) {
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: log in", authService.logIn(userLogInRequestDto, httpServletResponse)));
     }

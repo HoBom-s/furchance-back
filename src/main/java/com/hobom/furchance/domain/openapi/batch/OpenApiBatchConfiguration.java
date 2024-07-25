@@ -30,6 +30,7 @@ public class OpenApiBatchConfiguration {
             @Qualifier("fetchOpenApi") Step fetchOpenApi,
             @Qualifier("afterFetch") Step afterFetch
     ) {
+
         return new JobBuilder("openApiJob", jobRepository)
                 .start(beforeFetch)
                 .next(fetchOpenApi)
@@ -39,6 +40,7 @@ public class OpenApiBatchConfiguration {
 
     @Bean
     public Step beforeFetch(BeforeFetchTasklet beforeFetchTasklet) {
+
         return new StepBuilder("beforeFetch", jobRepository)
                 .tasklet(beforeFetchTasklet, transactionManager)
                 .build();
@@ -46,6 +48,7 @@ public class OpenApiBatchConfiguration {
 
     @Bean
     public Step fetchOpenApi(FetchOpenApiTasklet fetchOpenApiTasklet) {
+
         return new StepBuilder("fetchOpenApi", jobRepository)
                 .tasklet(fetchOpenApiTasklet, transactionManager)
                 .build();
@@ -53,9 +56,9 @@ public class OpenApiBatchConfiguration {
 
     @Bean
     public Step afterFetch(AfterFetchTasklet afterFetchTasklet) {
+
         return new StepBuilder("afterFetch", jobRepository)
                 .tasklet(afterFetchTasklet, transactionManager)
                 .build();
     }
-
 }

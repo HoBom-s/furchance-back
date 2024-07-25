@@ -30,20 +30,24 @@ public class ArticleController {
     }
 
     @GetMapping(Url.PAGINATION)
-    private ResponseEntity<ApiResponse<Page<ArticleResponseDto>>> getArticlePagination(@ModelAttribute @Valid ArticlePaginationRequestParamDto articlePaginationRequestParamDto) {
+    private ResponseEntity<ApiResponse<Page<ArticleResponseDto>>> getArticlePagination(
+            @ModelAttribute @Valid ArticlePaginationRequestParamDto articlePaginationRequestParamDto
+    ) {
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: article pagination", articleService.getArticlePagination(articlePaginationRequestParamDto)));
     }
 
     @PostMapping
-    private ResponseEntity<ApiResponse<ArticleResponseDto>> createOneArticle(@RequestBody @Valid ArticleCreateRequestDto articleCreateRequestDto, HttpServletRequest request) {
+    private ResponseEntity<ApiResponse<ArticleResponseDto>> createOneArticle(
+            @RequestBody @Valid ArticleCreateRequestDto articleCreateRequestDto,
+            HttpServletRequest request
+    ) {
 
         Long userId = CommonUtils.getVerifiedUserId(request);
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: create one article", articleService.createOneArticle(userId, articleCreateRequestDto)));
     }
 
-    // @TODO
     @PatchMapping(Url.ID_PARAM)
     private ResponseEntity<ApiResponse<ArticleResponseDto>> updateOneArticle(
             @PathVariable("id") Long id,

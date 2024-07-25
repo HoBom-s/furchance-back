@@ -23,5 +23,4 @@ public class OpenApiRequestParamDto {
     private final String numOfRows = OpenApiConstant.COUNT;
 
     private final String _type = OpenApiConstant.TYPE_JSON;
-
 }

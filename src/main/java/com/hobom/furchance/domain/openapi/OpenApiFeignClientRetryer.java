@@ -19,5 +19,4 @@ public class OpenApiFeignClientRetryer {
                 OpenApiConstant.MAX_ATTEMPT
         );
     }
-
 }

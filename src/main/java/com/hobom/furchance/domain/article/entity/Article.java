@@ -50,6 +50,7 @@ public class Article {
     }
 
     public Article of(String title, String contents, User user) {
+
         return new Article(title, contents, user);
     }
 }

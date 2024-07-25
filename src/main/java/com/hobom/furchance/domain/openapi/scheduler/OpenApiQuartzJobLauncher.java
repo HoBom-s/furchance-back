@@ -17,7 +17,9 @@ public class OpenApiQuartzJobLauncher extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext context) {
+
         JobLauncher jobLauncher = (JobLauncher) context.getMergedJobDataMap().get("jobLauncher");
+
         Job job = (Job) context.getMergedJobDataMap().get("job");
 
         try {
@@ -30,6 +32,7 @@ public class OpenApiQuartzJobLauncher extends QuartzJobBean {
             if (!jobExecution.getExitStatus().getExitCode().equals("COMPLETED")) {
                 throw new CustomException(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessage.SCHEDULE_ERROR + jobExecution.getStatus());
             }
+
         } catch (Exception exception) {
             throw new CustomException(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessage.SCHEDULE_ERROR + exception.getMessage());
         }
