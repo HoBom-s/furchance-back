@@ -19,6 +19,7 @@ import java.util.List;
 @Component
 @StepScope
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class BeforeFetchTasklet implements Tasklet {
 
     private final AbandonedAnimalRepository abandonedAnimalRepository;

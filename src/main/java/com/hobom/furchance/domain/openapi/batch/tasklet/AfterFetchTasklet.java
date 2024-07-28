@@ -22,6 +22,7 @@ import java.util.List;
 @Component
 @StepScope
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AfterFetchTasklet implements Tasklet {
 
     private final ObjectMapper objectMapper;
