@@ -49,7 +49,7 @@ public class Article {
         this.user = user;
     }
 
-    public Article of(String title, String contents, User user) {
+    public static Article of(String title, String contents, User user) {
 
         return new Article(title, contents, user);
     }
