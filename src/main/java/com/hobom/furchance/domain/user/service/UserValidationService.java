@@ -36,5 +36,4 @@ public class UserValidationService {
 
         return userRepository.findByNickname(nickname).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, ErrorMessage.NOT_FOUND + nickname));
     }
-
 }

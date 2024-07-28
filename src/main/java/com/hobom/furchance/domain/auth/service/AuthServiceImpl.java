@@ -1,5 +1,6 @@
 package com.hobom.furchance.domain.auth.service;
 
+import com.hobom.furchance.domain.auth.constant.AuthConstant;
 import com.hobom.furchance.domain.auth.dto.SignUpRequestDto;
 import com.hobom.furchance.domain.auth.dto.UserLogInRequestDto;
 import com.hobom.furchance.domain.auth.dto.UserLoginResponseDto;
@@ -40,7 +41,6 @@ public class AuthServiceImpl implements AuthService {
 
         String encodedPassword = passwordUtils.encodePassword(userCreateRequestDto.getPassword());
 
-        // @TODO
         User createdUser = userRepository.save(User.of(userCreateRequestDto.getNickname(), encodedPassword));
 
         return UserResponseDto.from(createdUser);
@@ -58,10 +58,10 @@ public class AuthServiceImpl implements AuthService {
             throw new CustomException(HttpStatus.UNAUTHORIZED, ErrorMessage.WRONG_PASSWORD);
         }
 
-        String accessToken = jwtUtils.generateToken(foundUser, "access");
+        String accessToken = jwtUtils.generateToken(foundUser, AuthConstant.ACCESS);
         jwtUtils.setAccessTokenToCookie(httpServletResponse, accessToken);
 
-        String refreshToken = jwtUtils.generateToken(foundUser, "refresh");
+        String refreshToken = jwtUtils.generateToken(foundUser, AuthConstant.REFRESH);
         redisService.setRefreshToken(foundUser, refreshToken);
 
         return UserLoginResponseDto.from(foundUser, accessToken);

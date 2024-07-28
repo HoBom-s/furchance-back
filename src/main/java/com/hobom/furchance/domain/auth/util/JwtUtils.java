@@ -1,6 +1,9 @@
 package com.hobom.furchance.domain.auth.util;
 
+import com.hobom.furchance.domain.auth.constant.AuthConstant;
 import com.hobom.furchance.domain.auth.service.RedisService;
+import com.hobom.furchance.domain.user.service.UserService;
+import com.hobom.furchance.domain.user.service.UserValidationService;
 import com.hobom.furchance.exception.CustomException;
 import com.hobom.furchance.exception.constant.ErrorMessage;
 import com.hobom.furchance.domain.user.entity.User;
@@ -28,7 +31,7 @@ public class JwtUtils {
 
     private final RedisService redisService;
 
-    private final UserRepository userRepository;
+    private final UserValidationService userValidationService;
 
     @Value("${jwt.secret}")
     private String jwtSecret;
@@ -73,9 +76,9 @@ public class JwtUtils {
 
         Map<String, Long> userIdClaim = createUserIdClaim(user);
 
-        if (tokenFlag.equals("access")) {
+        if (tokenFlag.equals(AuthConstant.ACCESS)) {
             return createToken(user.getNickname(), accessTokenExpirationTime, userIdClaim);
-        } else if (tokenFlag.equals("refresh")) {
+        } else if (tokenFlag.equals(AuthConstant.REFRESH)) {
             return createToken(user.getNickname(), refreshTokenExpirationTime, userIdClaim);
         }
 
@@ -93,24 +96,16 @@ public class JwtUtils {
         response.addCookie(jwtCookie);
     }
 
-    // @ TODO
     public String regenerateAccessToken(String accessToken) {
 
-        Long userId = extractUserId(accessToken);
+        User foundUser = findOneUserByToken(accessToken);
 
-        User foundUser = userRepository.findById(userId).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, ErrorMessage.NOT_FOUND + userId));
-
-        boolean isRefreshTokenValid = isRefreshTokenValid(accessToken, foundUser);
-
-        if (isRefreshTokenValid) {
-            return generateToken(foundUser, "access");
-        }
-
-        throw new CustomException(HttpStatus.BAD_REQUEST, ErrorMessage.TOKEN_EXPIRED);
+        return generateToken(foundUser, AuthConstant.ACCESS);
     }
 
-    // @TODO
-    private boolean isRefreshTokenValid(String accessToken, User foundUser) {
+    public boolean isRefreshTokenValid(String accessToken) {
+
+        User foundUser = findOneUserByToken(accessToken);
 
         String refreshToken = redisService.getRefreshToken(foundUser);
 
@@ -137,5 +132,12 @@ public class JwtUtils {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    private User findOneUserByToken(String token) {
+
+        Long userId = extractUserId(token);
+
+        return userValidationService.findOneUserById(userId);
     }
 }
