@@ -5,9 +5,9 @@ import com.hobom.furchance.domain.article.dto.ArticleCreateRequestDto;
 import com.hobom.furchance.domain.article.dto.ArticleResponseDto;
 import com.hobom.furchance.domain.article.dto.ArticleUpdateRequestDto;
 import com.hobom.furchance.domain.article.service.ArticleService;
+import com.hobom.furchance.domain.user.service.UserValidationService;
 import com.hobom.furchance.dto.ApiResponse;
 import com.hobom.furchance.url.Url;
-import com.hobom.furchance.util.CommonUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 public class ArticleController {
 
     private final ArticleService articleService;
+
+    private final UserValidationService userValidationService;
 
     @GetMapping(Url.ID_PARAM)
     private ResponseEntity<ApiResponse<ArticleResponseDto>> getOneArticleById(@PathVariable("id") Long id) {
@@ -43,7 +45,7 @@ public class ArticleController {
             HttpServletRequest request
     ) {
 
-        Long userId = CommonUtils.getVerifiedUserId(request);
+        Long userId = userValidationService.getVerifiedUserId(request);
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: create one article", articleService.createOneArticle(userId, articleCreateRequestDto)));
     }
@@ -55,7 +57,7 @@ public class ArticleController {
             HttpServletRequest request
     ) {
 
-        Long userId = CommonUtils.getVerifiedUserId(request);
+        Long userId = userValidationService.getVerifiedUserId(request);
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: update one article", articleService.updateOneArticle(id, userId, articleUpdateRequestDto)));
     }
@@ -63,7 +65,7 @@ public class ArticleController {
     @DeleteMapping(Url.ID_PARAM)
     private ResponseEntity<ApiResponse<ArticleResponseDto>> deleteOneArticle(@PathVariable("id") Long id, HttpServletRequest request) {
 
-        Long userId = CommonUtils.getVerifiedUserId(request);
+        Long userId = userValidationService.getVerifiedUserId(request);
 
         return ResponseEntity.ok(ApiResponse.of(HttpStatus.OK, "Success: remove one article", articleService.removeOneArticle(id, userId)));
     }

@@ -6,11 +6,10 @@ import com.hobom.furchance.domain.article.dto.ArticleResponseDto;
 import com.hobom.furchance.domain.article.dto.ArticleUpdateRequestDto;
 import com.hobom.furchance.domain.article.entity.Article;
 import com.hobom.furchance.domain.article.repository.ArticleRepository;
+import com.hobom.furchance.domain.user.service.UserValidationService;
 import com.hobom.furchance.exception.CustomException;
 import com.hobom.furchance.exception.constant.ErrorMessage;
 import com.hobom.furchance.domain.user.entity.User;
-import com.hobom.furchance.domain.user.repository.UserRepository;
-import com.hobom.furchance.util.CommonUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,7 +26,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
 
-    private final UserRepository userRepository;
+    private final UserValidationService userValidationService;
 
     @Override
     public ArticleResponseDto getOneArticleById(Long id) {
@@ -53,7 +52,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional
     public ArticleResponseDto createOneArticle(Long userId, ArticleCreateRequestDto articleCreateRequestDto) {
 
-        User writer = userRepository.findById(userId).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, ErrorMessage.NOT_FOUND + userId));
+        User writer = userValidationService.findOneUserById(userId);
 
         Article createdArticle = articleRepository.save(Article.of(articleCreateRequestDto.getTitle(), articleCreateRequestDto.getContents(), writer));
 
@@ -95,11 +94,10 @@ public class ArticleServiceImpl implements ArticleService {
         return ArticleResponseDto.from(removedArticle);
     }
 
-    // @TODO
     private void validateArticleWriter(Long userId, Article foundArticle) {
 
         Long writerId = foundArticle.getUser().getId();
 
-        CommonUtils.validateUser(userId, writerId);
+        userValidationService.validateUser(userId, writerId);
     }
 }
