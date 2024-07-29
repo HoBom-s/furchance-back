@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
         User foundUser = userValidationService.findOneUserById(id);
 
         if (foundUser.isDeleted()) {
-            throw new CustomException(HttpStatus.NOT_FOUND, ErrorMessage.ALREADY_DELETED + id);
+            throw new CustomException(HttpStatus.BAD_REQUEST, ErrorMessage.ALREADY_DELETED + id);
         }
 
         foundUser.setDeleted(true);

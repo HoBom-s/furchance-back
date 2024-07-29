@@ -240,7 +240,7 @@ class ArticleServiceImplTest {
         });
 
         assertThat(customException.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
-        assertThat(customException.getMessage()).isEqualTo(ErrorMessage.ALREADY_DELETED+articleId);
+        assertThat(customException.getMessage()).isEqualTo(ErrorMessage.ALREADY_DELETED + articleId);
     }
 
     @Test
