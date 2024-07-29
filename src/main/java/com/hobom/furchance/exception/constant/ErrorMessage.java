@@ -10,8 +10,6 @@ public class ErrorMessage {
 
     public static final String ALREADY_EXISTS = "Requested resource already exists";
 
-    public static final String ILLEGAL_ARGS = "Invalid parameters: ";
-
     public static final String JSON_ERROR = "Error while parsing String to Json: ";
 
     public static final String SCHEDULE_ERROR = "Error during Quartz Job: ";
