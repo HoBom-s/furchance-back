@@ -36,7 +36,6 @@ public class AfterFetchTasklet implements Tasklet {
         try {
             List<AbandonedAnimal> abandonedAnimals = new ArrayList<>();
 
-            // @TODO
             for (JsonNode openApiItem : FetchOpenApiTasklet.tempStorage) {
                 AbandonedAnimal abandonedAnimal = objectMapper.treeToValue(openApiItem, AbandonedAnimal.class);
                 abandonedAnimals.add(abandonedAnimal);

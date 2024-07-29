@@ -13,5 +13,4 @@ public class ArticleCreateRequestDto {
 
     @NotBlank
     private String contents;
-
 }
