@@ -2,6 +2,7 @@ package com.hobom.furchance.domain.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
