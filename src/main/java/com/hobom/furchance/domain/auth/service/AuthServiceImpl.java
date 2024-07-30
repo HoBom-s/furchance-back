@@ -35,13 +35,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public UserResponseDto signUp(SignUpRequestDto userCreateRequestDto) {
+    public UserResponseDto signUp(SignUpRequestDto signUpRequestDto) {
 
-        userValidationService.validateNickname(userCreateRequestDto.getNickname());
+        userValidationService.validateNickname(signUpRequestDto.getNickname());
 
-        String encodedPassword = passwordUtils.encodePassword(userCreateRequestDto.getPassword());
+        String encodedPassword = passwordUtils.encodePassword(signUpRequestDto.getPassword());
 
-        User createdUser = userRepository.save(User.of(userCreateRequestDto.getNickname(), encodedPassword));
+        User createdUser = userRepository.save(User.of(signUpRequestDto.getNickname(), encodedPassword));
 
         return UserResponseDto.from(createdUser);
     }
