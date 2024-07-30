@@ -133,4 +133,4 @@ class AuthServiceImplTest {
         assertThat(customException.getStatus()).isEqualTo(HttpStatus.UNAUTHORIZED);
         assertThat(customException.getMessage()).isEqualTo(ErrorMessage.WRONG_PASSWORD);
     }
-}:!
+}

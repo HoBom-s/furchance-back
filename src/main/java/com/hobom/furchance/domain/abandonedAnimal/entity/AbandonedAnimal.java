@@ -80,5 +80,4 @@ public class AbandonedAnimal {
 
     @Column(name = "office_tel")
     private String officetel;
-
 }
