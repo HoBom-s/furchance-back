@@ -3,6 +3,9 @@
 
 공공데이터포털 OpenAPI를 활용한 서울시 유기동물 조회 서비스 백엔드  
 
+## 문제 해결(Troubleshoot)
+- 노션 트러블슈팅: [링크](https://flawless-octagon-2a5.notion.site/FurChance-3840ce108d904c658c5e26b965919ba5)
+
 ## 기술 스택
 `Java` `Spring Boot` `Spring Security` `JPA` `Hibernate` `MySQL` `Redis` `Spring Batch` `Quartz` `JWT` `OpenFeign` 
 
@@ -32,7 +35,3 @@
 - 게시글 페이지네이션
 
 <br/>
-
-## 문제 해결(Troubleshoot)
-- 노션 트러블슈팅 [링크](https://flawless-octagon-2a5.notion.site/FurChance-3840ce108d904c658c5e26b965919ba5)
-
